@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd "$(git rev-parse --show-toplevel)"
+
+echo "> ./node_modules/.bin/gulp build --gulpfile ./build-setup/gulpfile.js --cwd . $@"
+
+./node_modules/.bin/gulp build --gulpfile ./build-setup/gulpfile.js --cwd . $@
+
+exit 0

@@ -1,0 +1,70 @@
+{
+  "name": "goap-experiments",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "./build-setup/scripts/build",
+    "eslint": "./build-setup/scripts/eslint",
+    "eslint-wip": "./build-setup/scripts/eslint --wip",
+    "eslint-commit": "./build-setup/scripts/eslint --commit",
+    "update": "npm update flex-directive-replacer gulp-purge-source-maps html-source-include i18n-replacer template-resolver-loader"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mekhonoshyn/goap-experiments.git"
+  },
+  "author": "mekhonoshyn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mekhonoshyn/goap-experiments/issues"
+  },
+  "homepage": "https://github.com/mekhonoshyn/goap-experiments#readme",
+  "dependencies": {
+    "@uirouter/angularjs": "^1.0.15",
+    "angular": "^1.6.9",
+    "angular-animate": "^1.6.9",
+    "angular-aria": "^1.6.9",
+    "angular-material": "^1.1.7",
+    "angular-messages": "^1.6.9",
+    "angular-sanitize": "^1.6.9",
+    "babel-runtime": "^6.26.0",
+    "flux-angular": "^3.1.6"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-angularjs-annotate": "^0.8.2",
+    "babel-plugin-transform-es5-property-mutators": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "css-loader": "^0.28.10",
+    "del": "^3.0.0",
+    "dotenv": "^5.0.1",
+    "eslint": "^4.18.2",
+    "eslint-plugin-angular": "^3.3.0",
+    "exports-loader": "^0.7.0",
+    "expose-loader": "^0.7.3",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "flex-directive-replacer": "git+https://github.com/mekhonoshyn/flex-directive-replacer.git",
+    "gulp": "^3.9.1",
+    "gulp-compile-handlebars": "^0.6.1",
+    "gulp-purge-source-maps": "git+https://github.com/mekhonoshyn/gulp-purge-source-maps.git",
+    "gulp-rename": "^1.2.2",
+    "html-loader": "^0.5.5",
+    "html-source-include": "git+https://github.com/mekhonoshyn/html-source-include.git",
+    "i18n-replacer": "git+https://github.com/mekhonoshyn/i18n-replacer.git",
+    "node-sass": "^4.8.1",
+    "require-dir": "^1.0.0",
+    "run-sequence": "^2.2.1",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.3",
+    "template-resolver-loader": "git+https://github.com/mekhonoshyn/template-resolver-loader.git",
+    "webpack": "^3.11.0",
+    "webpack-manifest-plugin": "^2.0.0-rc.2",
+    "yargs": "^11.1.0"
+  }
+}

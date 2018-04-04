@@ -1,0 +1,10 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!--<g id="svg-icon-{name}">-->
+            <!--<title>{Name}</title>-->
+            <!--<path class="md-icon_secondary-color" d="{path}"/>-->
+            <!--<path class="md-icon_tertiary-color" d="{path}"/>-->
+            <!--<path class="md-icon_primary-color" d="{path}"/>-->
+        <!--</g>-->
+    </defs>
+</svg>

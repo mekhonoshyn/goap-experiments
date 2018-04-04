@@ -1,0 +1,35 @@
+#!/bin/bash
+
+cd "$(git rev-parse --show-toplevel)"
+
+if [[ $1 == "--wip" ]]; then
+  WIP_FILES=($(git diff HEAD --name-only --diff-filter=ACM -- | grep -v -P "^dist\/" | grep -P "\.js$"))
+
+  if [[ "$WIP_FILES" = "" ]]; then
+    echo "nothing to lint - no .js files in progress"
+
+    exit 0
+  fi
+
+  ESLINT_TARGET=${WIP_FILES[@]}
+elif [[ $1 == "--commit" ]]; then
+  COMMIT_FILES=($(git diff-tree --no-commit-id --name-only -r HEAD --diff-filter=ACM -- | grep -v -P "^dist\/" | grep -P "\.js$"))
+
+  if [[ "$COMMIT_FILES" = "" ]]; then
+    echo "nothing to lint - nothing is committed yet"
+
+    exit 0
+  fi
+
+  ESLINT_TARGET=${COMMIT_FILES[@]}
+elif [ $# -gt 0 ]; then
+  ESLINT_TARGET=$@
+else
+  ESLINT_TARGET="src/app"
+fi
+
+echo "> ./node_modules/.bin/eslint ${ESLINT_TARGET}"
+
+./node_modules/.bin/eslint ${ESLINT_TARGET}
+
+exit 0
