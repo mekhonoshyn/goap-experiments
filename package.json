@@ -7,7 +7,7 @@
     "eslint": "./build-setup/scripts/eslint",
     "eslint-wip": "./build-setup/scripts/eslint --wip",
     "eslint-commit": "./build-setup/scripts/eslint --commit",
-    "update": "npm update flex-directive-replacer gulp-purge-source-maps html-source-include i18n-replacer template-resolver-loader"
+    "update": "npm update fetch-resource-loader flex-directive-replacer gulp-purge-source-maps html-source-include i18n-replacer template-resolver-loader"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,8 @@
     "angular-messages": "^1.6.9",
     "angular-sanitize": "^1.6.9",
     "babel-runtime": "^6.26.0",
-    "flux-angular": "^3.1.6"
+    "flux-angular": "^3.1.6",
+    "ngimport": "^1.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -49,6 +50,7 @@
     "exports-loader": "^0.7.0",
     "expose-loader": "^0.7.3",
     "extract-text-webpack-plugin": "^3.0.2",
+    "fetch-resource-loader": "git+https://github.com/mekhonoshyn/fetch-resource-loader.git",
     "flex-directive-replacer": "git+https://github.com/mekhonoshyn/flex-directive-replacer.git",
     "gulp": "^3.9.1",
     "gulp-compile-handlebars": "^0.6.1",
@@ -58,6 +60,7 @@
     "html-source-include": "git+https://github.com/mekhonoshyn/html-source-include.git",
     "i18n-replacer": "git+https://github.com/mekhonoshyn/i18n-replacer.git",
     "node-sass": "^4.8.1",
+    "raw-loader": "^0.5.1",
     "require-dir": "^1.0.0",
     "run-sequence": "^2.2.1",
     "sass-loader": "^6.0.7",

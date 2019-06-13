@@ -1,0 +1,24 @@
+<span layout="row"
+   flex>
+    <span style="padding: 8px;"
+       layout="column">
+        <md-button class="md-fab bld-micro md-primary"
+           ng-disabled="true"
+           ng-click="null">
+            <md-icon>more_vert</md-icon>
+        </md-button>
+        <bld-horizontal-spacer ng-if-start="resourceViewCtrl.instance.parentId"></bld-horizontal-spacer>
+        <md-button class="md-fab bld-micro"
+           ng-if-end="resourceViewCtrl.instance.parentId"
+           ng-click="resourceViewCtrl.openEditDialog()">
+            <md-icon>edit</md-icon>
+        </md-button>
+    </span>
+    <md-divider></md-divider>
+    <span layout="column"
+       flex>
+        <h3 layout-padding>Resource</h3>
+        <i ng-bind="resourceViewCtrl.instance.description"
+           layout-padding></i>
+    </span>
+</span>

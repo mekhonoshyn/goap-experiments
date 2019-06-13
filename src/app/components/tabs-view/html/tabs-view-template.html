@@ -1,0 +1,41 @@
+<span layout="row"
+   flex>
+    <span style="padding: 8px;"
+       layout="column">
+        <md-button class="md-fab bld-micro md-primary"
+           ng-disabled="true"
+           ng-click="null">
+            <md-icon>more_vert</md-icon>
+        </md-button>
+        <bld-horizontal-spacer ng-if-start="tabsViewCtrl.instance.parentId"></bld-horizontal-spacer>
+        <md-button class="md-fab bld-micro"
+           ng-if-end="tabsViewCtrl.instance.parentId"
+           ng-click="tabsViewCtrl.openEditDialog()">
+            <md-icon>edit</md-icon>
+        </md-button>
+        <bld-horizontal-spacer></bld-horizontal-spacer>
+        <bld-horizontal-divider></bld-horizontal-divider>
+        <bld-horizontal-spacer></bld-horizontal-spacer>
+        <md-button class="md-fab bld-micro md-primary"
+           ng-click="tabsViewCtrl.openCreateDialog()">
+            <md-icon>add</md-icon>
+        </md-button>
+    </span>
+    <md-divider></md-divider>
+    <md-tabs md-border-bottom
+       md-selected="tabsViewCtrl.selectedIndex"
+       flex>
+        <span ng-repeat="tabInstance in tabsViewCtrl.tabInstances track by tabInstance.id">
+            <md-tab ng-click="tabsViewCtrl.onTabSelect(tabInstance)">
+                <md-tab-label>
+                    <span ng-bind="tabInstance.title"></span>
+                </md-tab-label>
+                <md-tab-body>
+                    <bld-structure-unit bld-structure-unit-instance="tabInstance"
+                       style="height: 100%"
+                       layout="column"></bld-structure-unit>
+                </md-tab-body>
+            </md-tab>
+        </span>
+    </md-tabs>
+</span>

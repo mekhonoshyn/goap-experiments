@@ -70,6 +70,23 @@ module.exports = {
                 }
             }]
         }, {
+            test: /css\/\.remote$/,
+            use: extractCssPlugin.extract({
+                use: [{
+                    loader: 'css-loader',
+                    options: {
+                        url: false,
+                        minimize: isProductionBuildEnvironment && {
+                            discardComments: {
+                                removeAll: true
+                            }
+                        }
+                    }
+                }, {
+                    loader: 'fetch-resource-loader'
+                }]
+            })
+        }, {
             test: /\.css$/,
             use: extractCssPlugin.extract({
                 use: [{

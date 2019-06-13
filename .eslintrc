@@ -432,7 +432,7 @@
         "prefer-template": ["warn"],
         "require-yield": ["warn"],
         "rest-spread-spacing": ["warn", "never"],
-        "sort-imports": ["warn"],
+        "sort-imports": ["off"],
         "symbol-description": ["warn"],
         "template-curly-spacing": ["warn"],
         "yield-star-spacing": ["warn"]

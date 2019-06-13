@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+        <title>GOAP experiments</title>
 
         {{cssAsset "shared.css"}}
         {{cssAsset "vendors.css"}}
@@ -10,7 +11,10 @@
 
         <link rel="shortcut icon" href="img/favicon-b50bc64dc3dea6be292a7063b028f6b4.ico"/>
     </head>
-    <body>
+    <body layout="column">
+        <bld-structure-root layout="column"
+           flex></bld-structure-root>
+
         {{jsAsset "shared.js"}}
         {{jsAsset "vendors.js"}}
         {{jsAsset "builder.js"}}

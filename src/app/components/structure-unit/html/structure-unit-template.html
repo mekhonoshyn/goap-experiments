@@ -1,0 +1,20 @@
+<span ng-switch="structureUnitCtrl.instance.view.type"
+   layout="column"
+   flex>
+    <bld-tabs-view ng-switch-when="tabs-view"
+       bld-tabs-view-instance="structureUnitCtrl.instance"
+       layout="column"
+       flex></bld-tabs-view>
+    <bld-list-view ng-switch-when="list-view"
+       bld-list-view-instance="structureUnitCtrl.instance"
+       layout="column"
+       flex></bld-list-view>
+    <bld-goal-view ng-switch-when="goal-view"
+       bld-goal-view-instance="structureUnitCtrl.instance"
+       layout="column"
+       flex></bld-goal-view>
+    <bld-resource-view ng-switch-when="resource-view"
+       bld-resource-view-instance="structureUnitCtrl.instance"
+       layout="column"
+       flex></bld-resource-view>
+</span>
