@@ -2,21 +2,20 @@
    flex>
     <span style="padding: 8px;"
        layout="column">
-        <md-button class="md-fab bld-micro md-primary"
-           ng-disabled="true"
-           ng-click="null">
-            <md-icon>more_vert</md-icon>
-        </md-button>
-        <bld-horizontal-spacer ng-if-start="goalViewCtrl.instance.parentId"></bld-horizontal-spacer>
-        <md-button class="md-fab bld-micro"
-           ng-if-end="goalViewCtrl.instance.parentId"
-           ng-click="goalViewCtrl.openEditDialog()">
-            <md-icon>edit</md-icon>
-        </md-button>
+        <bld-floating-action-button disabled>more_vert</bld-floating-action-button>
+        <bld-vertical-spacer ng-if-start="goalViewCtrl.instance.parentId"></bld-vertical-spacer>
+        <bld-floating-action-button ng-if-end="goalViewCtrl.instance.parentId"
+           ng-click="goalViewCtrl.openEditDialog()">edit</bld-floating-action-button>
     </span>
-    <md-divider></md-divider>
+    <bld-horizontal-divider></bld-horizontal-divider>
     <span layout="column"
        flex>
+        <h3 style="margin-bottom: 0;"
+           ng-bind="goalViewCtrl.instance.title"
+           layout-padding></h3>
+        <i ng-bind="goalViewCtrl.instance.description"
+           layout-padding></i>
+
         <span layout="column">
             <span style="padding: 8px;"
                layout="row"
@@ -24,15 +23,12 @@
                 <h3 style="margin: auto;"
                    flex>Tools</h3>
 
-                <md-button class="md-fab bld-micro md-primary"
-                   ng-click="goalViewCtrl.addTool()">
-                    <md-icon>add</md-icon>
-                </md-button>
+                <bld-floating-action-button ng-click="goalViewCtrl.addTool()">add</bld-floating-action-button>
             </span>
 
             <span ng-repeat="goalTool in goalViewCtrl.goalTools track by goalTool.id"></span>
 
-            <bld-horizontal-divider></bld-horizontal-divider>
+            <bld-vertical-divider></bld-vertical-divider>
         </span>
 
         <span layout="column">
@@ -42,15 +38,12 @@
                 <h3 style="margin: auto;"
                    flex>Resources</h3>
 
-                <md-button class="md-fab bld-micro md-primary"
-                   ng-click="goalViewCtrl.addResource()">
-                    <md-icon>add</md-icon>
-                </md-button>
+                <bld-floating-action-button ng-click="goalViewCtrl.addResource()">add</bld-floating-action-button>
             </span>
 
             <span ng-repeat="goalResource in goalViewCtrl.goalResources track by goalResource.id"></span>
 
-            <bld-horizontal-divider></bld-horizontal-divider>
+            <bld-vertical-divider></bld-vertical-divider>
         </span>
 
         <span layout="column">
@@ -61,7 +54,7 @@
                    flex>Result</h3>
             </span>
 
-            <bld-horizontal-divider></bld-horizontal-divider>
+            <bld-vertical-divider></bld-vertical-divider>
         </span>
 
         <span layout="column">

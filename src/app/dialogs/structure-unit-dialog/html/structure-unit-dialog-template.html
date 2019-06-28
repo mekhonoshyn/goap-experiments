@@ -36,6 +36,8 @@
                 <md-optgroup label="${{structure-unit__create__dialog.VIEW__FIELD__OTHER__GROUP__LABEL}}$">
                     <md-option value="goal-view">Goal View</md-option>
                     <md-option value="resource-view">Resource View</md-option>
+                    <md-option value="tool-view">Tool View</md-option>
+                    <md-option value="process-view">Process View</md-option>
                 </md-optgroup>
             </md-select>
             <div class="md-errors-spacer"></div>
@@ -46,10 +48,9 @@
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-        <span flex></span>
-        <md-button class="md-primary md-raised"
-           ng-click="structureUnitDialogCtrl.submitForm()"
-           ng-disabled="structureUnitDialogForm.$invalid">${{structure-unit__create__dialog.SUBMIT_FORM__BUTTON__LABEL}}$</md-button>
-        <md-button ng-click="structureUnitDialogCtrl.closeDialog()">${{structure-unit__create__dialog.CANCEL_FORM__BUTTON__LABEL}}$</md-button>
+        <bld-action-button ng-click="structureUnitDialogCtrl.submitForm()"
+           ng-disabled="structureUnitDialogForm.$invalid">${{structure-unit__create__dialog.SUBMIT_FORM__BUTTON__LABEL}}$</bld-action-button>
+        <bld-horizontal-spacer></bld-horizontal-spacer>
+        <bld-button ng-click="structureUnitDialogCtrl.closeDialog()">${{structure-unit__create__dialog.CANCEL_FORM__BUTTON__LABEL}}$</bld-button>
     </md-dialog-actions>
 </md-dialog>

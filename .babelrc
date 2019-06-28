@@ -1,5 +1,13 @@
 {
-  "presets": ["env", "stage-2"],
-  "plugins": ["transform-runtime", "transform-es5-property-mutators", "angularjs-annotate"],
+  "presets": [
+    "env",
+    "stage-2"
+  ],
+  "plugins": [
+    "transform-custom-element-classes",
+    "transform-runtime",
+    "transform-es5-property-mutators",
+    "angularjs-annotate"
+  ],
   "comments": true
 }

@@ -70,23 +70,6 @@ module.exports = {
                 }
             }]
         }, {
-            test: /css\/\.remote$/,
-            use: extractCssPlugin.extract({
-                use: [{
-                    loader: 'css-loader',
-                    options: {
-                        url: false,
-                        minimize: isProductionBuildEnvironment && {
-                            discardComments: {
-                                removeAll: true
-                            }
-                        }
-                    }
-                }, {
-                    loader: 'fetch-resource-loader'
-                }]
-            })
-        }, {
             test: /\.css$/,
             use: extractCssPlugin.extract({
                 use: [{
@@ -116,7 +99,12 @@ module.exports = {
                         importLoaders: 1
                     }
                 }, {
-                    loader: 'sass-loader'
+                    loader: 'sass-loader',
+                    options: {
+                        includePaths: [
+                            path.join(process.cwd(), 'node_modules')
+                        ]
+                    }
                 }]
             })
         }, {

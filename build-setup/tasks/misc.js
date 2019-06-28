@@ -6,18 +6,26 @@ import {
     distPath
 } from '../build-config';
 
-gulp.task('misc:copy', miscCopy);
+gulp.task('misc:copy:sql', copySql);
+gulp.task('misc:copy:stylesheets', copyStylesheets);
 
-gulp.task('misc', sequence('misc:copy'));
+gulp.task('misc', sequence(['misc:copy:sql', 'misc:copy:stylesheets']));
 
-function miscCopy() {
+function copySql() {
     return gulp
         .src([
             path.join(srcPath, 'db', 'worker.sql.js'),
             path.join(srcPath, 'db', 'db-snapshot.sql'),
             path.join(srcPath, 'db', 'worker.ext.sql.js')
-        ], {
-            base: path.join(srcPath, 'db')
-        })
+        ])
         .pipe(gulp.dest(path.join(distPath, 'sql')));
+}
+
+function copyStylesheets() {
+    return gulp
+        .src([
+            'node_modules/@material/button/dist/mdc.button.min.css',
+            'node_modules/@material/button/dist/mdc.button.min.css.map'
+        ])
+        .pipe(gulp.dest(path.join(distPath, 'css')));
 }

@@ -3,17 +3,17 @@
     <span style="padding: 8px;"
        layout="column">
         <bld-floating-action-button disabled>more_vert</bld-floating-action-button>
-        <bld-vertical-spacer ng-if-start="resourceViewCtrl.instance.parentId"></bld-vertical-spacer>
-        <bld-floating-action-button ng-if-end="resourceViewCtrl.instance.parentId"
-           ng-click="resourceViewCtrl.openEditDialog()">edit</bld-floating-action-button>
+        <bld-vertical-spacer ng-if-start="toolViewCtrl.instance.parentId"></bld-vertical-spacer>
+        <bld-floating-action-button ng-if-end="toolViewCtrl.instance.parentId"
+           ng-click="toolViewCtrl.openEditDialog()">edit</bld-floating-action-button>
     </span>
     <bld-horizontal-divider></bld-horizontal-divider>
     <span layout="column"
        flex>
         <h3 style="margin-bottom: 0;"
-           ng-bind="resourceViewCtrl.instance.title"
+           ng-bind="toolViewCtrl.instance.title"
            layout-padding></h3>
-        <i ng-bind="resourceViewCtrl.instance.description"
+        <i ng-bind="toolViewCtrl.instance.description"
            layout-padding></i>
     </span>
 </span>

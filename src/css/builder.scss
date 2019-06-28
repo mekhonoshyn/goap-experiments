@@ -5,19 +5,3 @@ html {}
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
-.md-button {
-  &.md-fab {
-    margin: 0;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.26);
-
-    &.bld-micro {
-      padding: 0;
-      line-height: 36px;
-      width: 36px;
-      min-width: 36px;
-      height: 36px;
-      min-height: 36px;
-    }
-  }
-}

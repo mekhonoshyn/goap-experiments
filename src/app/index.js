@@ -64,20 +64,21 @@ function runApplication(
 
     $templateCache.put('svg/icons.svg', iconsSvgLibrary);
 
-    // sqlService.initialize()
-    sqlService.connect()
-        .then(() => sqlWorker.execute(`
+    (async () => {
+        // await sqlService.initialize();
+
+        await sqlService.connect();
+
+        await sqlWorker.execute(`
             INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Goals", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
             INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
             INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Resources", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
             INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Tools", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(5, "Stove", "", "${sqlBuilder.fromJSON({type: 'resource-view'})}");
-        `))
-        .then(() => sqlWorker.execute(`
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Data_01", "data 01 description", "${sqlBuilder.fromJSON({type: 'list-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Data_02", "data 02 description", "${sqlBuilder.fromJSON({type: 'tabs-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Data_03", "", "${sqlBuilder.fromJSON({type: 'tabs-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Data_04", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
-        `))
-        .then(() => structureUnitsActions.fetchStructureUnits());
+            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(5, "Furnace", "allows to _BAKE_ or _MELT_ stuff", "${sqlBuilder.fromJSON({type: 'tool-view'})}");
+            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Processes", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
+            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(7, "to Heat Furnace", "changes the Furnace state to _HOT_", "${sqlBuilder.fromJSON({type: 'process-view'})}");
+        `);
+
+        structureUnitsActions.fetchStructureUnits();
+    })();
 }

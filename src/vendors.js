@@ -1,9 +1,6 @@
 import 'angular-material/angular-material.scss';
 import './css/angular-material-pre-rendered.css';
 
-// import './css/material-icons.css';
-import 'css/.remote?path=https://fonts.googleapis.com/icon?family=Material+Icons';
-
 import 'babel-polyfill';
 
 import 'angular';

@@ -2,26 +2,16 @@
    flex>
     <span style="padding: 8px;"
        layout="column">
-        <md-button class="md-fab bld-micro md-primary"
-           ng-disabled="true"
-           ng-click="null">
-            <md-icon>more_vert</md-icon>
-        </md-button>
-        <bld-horizontal-spacer ng-if-start="listViewCtrl.instance.parentId"></bld-horizontal-spacer>
-        <md-button class="md-fab bld-micro"
-           ng-if-end="listViewCtrl.instance.parentId"
-           ng-click="listViewCtrl.openEditDialog()">
-            <md-icon>edit</md-icon>
-        </md-button>
-        <bld-horizontal-spacer></bld-horizontal-spacer>
-        <bld-horizontal-divider></bld-horizontal-divider>
-        <bld-horizontal-spacer></bld-horizontal-spacer>
-        <md-button class="md-fab bld-micro md-primary"
-           ng-click="listViewCtrl.openCreateDialog()">
-            <md-icon>add</md-icon>
-        </md-button>
+        <bld-floating-action-button disabled>more_vert</bld-floating-action-button>
+        <bld-vertical-spacer ng-if-start="listViewCtrl.instance.parentId"></bld-vertical-spacer>
+        <bld-floating-action-button ng-if-end="listViewCtrl.instance.parentId"
+           ng-click="listViewCtrl.openEditDialog()">edit</bld-floating-action-button>
+        <bld-vertical-spacer></bld-vertical-spacer>
+        <bld-vertical-divider></bld-vertical-divider>
+        <bld-vertical-spacer></bld-vertical-spacer>
+        <bld-floating-action-button ng-click="listViewCtrl.openCreateDialog()">add</bld-floating-action-button>
     </span>
-    <md-divider></md-divider>
+    <bld-horizontal-divider></bld-horizontal-divider>
     <md-content style="width: 300px">
         <md-list>
             <md-list-item class="md-2-line"
