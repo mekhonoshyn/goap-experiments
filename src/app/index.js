@@ -2,6 +2,7 @@ import sqlWorker from 'db/sql-worker';
 import sqlBuilder from 'db/sql-builder';
 import sqlService from 'db/sql-service';
 import iconsSvgLibrary from 'svg/icons.svg';
+import structureUnitsActions from 'app/actions/structure-units-actions';
 
 angular.module('builder', [
     'ui.router',
@@ -56,8 +57,7 @@ function configSecurityAndPerformance(
 /* @ngInject */
 function runApplication(
     $animate,
-    $templateCache,
-    structureUnitsActions
+    $templateCache
 ) {
     $animate.enabled(false);
 

@@ -1,11 +1,9 @@
 import './scss/structure-unit-dialog.scss';
 import Controller from 'cls/Controller';
 import {
-    structureUnitsActions
-} from 'app/common/bld-imports';
-import {
     $mdDialog
 } from 'app/common/md-imports';
+import structureUnitsActions from 'app/actions/structure-units-actions';
 
 class StructureUnitDialogController extends Controller {
     constructor(...args) {
