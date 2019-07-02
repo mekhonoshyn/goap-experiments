@@ -44,6 +44,8 @@ export default class extends HTMLElement {
             return;
         }
 
+        await this.prepareData();
+
         privates.get(this).awaitingForRender = true;
 
         await Promise.resolve();
@@ -52,6 +54,8 @@ export default class extends HTMLElement {
 
         privates.get(this).awaitingForRender = false;
     }
+
+    prepareData() {}
 
     /**
      * @abstract
