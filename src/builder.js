@@ -10,3 +10,4 @@ import 'app/web-components/divider/divider-component';
 import 'app/web-components/spacer/spacer-component';
 import 'app/web-components/tool-view/tool-view-component';
 import 'app/web-components/resource-view/resource-view-component';
+import 'app/web-components/goal-view/goal-view-component';

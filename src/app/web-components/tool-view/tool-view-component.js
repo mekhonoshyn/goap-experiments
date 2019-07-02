@@ -1,60 +1,36 @@
 import BaseComponent from '../base-component';
 
+import styles from './tool-view-styles.html';
+
 import structureUnitsStore from '../../stores/structure-units-store';
 import structureUnitsService from 'app/services/structure-units-service';
 
 class ToolView extends BaseComponent {
-    render(compiler) {
-        return this.instance ? compiler`
-            <style>
-                :host {
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                }
+    render(compiler, {unsafeHTML}, {nothing}) {
+        if (!this.instance) {
+            return nothing;
+        }
 
-                .tool-actions-panel {
-                    padding: 8px;
-                    display: flex;
-                    flex-direction: column;
-                }
+        const compiledEditAction = this.instance.parentId ? compiler`
+            <bld-vertical-spacer></bld-vertical-spacer>
+            <bld-floating-action-button @click=${this.openEditDialog.bind(this)}>edit</bld-floating-action-button>
+        ` : nothing;
 
-                .tool-header {
-                    margin-bottom: 0;
-                    padding: 8px;
-                }
+        return compiler`
+            ${unsafeHTML(styles)}
 
-                .tool-sub-header {
-                    padding: 8px;
-                }
-
-                .tool-container {
-                    flex: 1;
-                    display: flex;
-                }
-
-                .tool-details {
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                }
-            </style>
-
-            <div class="tool-container">
-                <div class="tool-actions-panel">
+            <div class="layout-row flex">
+                <div class="tool-actions-panel layout-column">
                     <bld-floating-action-button disabled>more_vert</bld-floating-action-button>
-                    ${this.instance.parentId ? compiler`
-                        <bld-vertical-spacer></bld-vertical-spacer>
-                        <bld-floating-action-button @click=${this.openEditDialog.bind(this)}>edit</bld-floating-action-button>
-                    ` : ''}
+                    ${compiledEditAction}
                 </div>
                 <bld-horizontal-divider></bld-horizontal-divider>
-                <div class="tool-details">
+                <div class="layout-column flex">
                     <h3 class="tool-header">${this.instance.title}</h3>
                     <i class="tool-sub-header">${this.instance.description}</i>
                 </div>
             </div>
-        ` : '';
+        `;
     }
 
     onCreate() {

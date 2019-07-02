@@ -1,60 +1,36 @@
 import BaseComponent from '../base-component';
 
+import styles from './resource-view-styles.html';
+
 import structureUnitsStore from '../../stores/structure-units-store';
 import structureUnitsService from 'app/services/structure-units-service';
 
 class ResourceView extends BaseComponent {
-    render(compiler) {
-        return this.instance ? compiler`
-            <style>
-                :host {
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                }
+    render(compiler, {unsafeHTML}, {nothing}) {
+        if (!this.instance) {
+            return nothing;
+        }
 
-                .resource-actions-panel {
-                    padding: 8px;
-                    display: flex;
-                    flex-direction: column;
-                }
+        const compiledEditAction = this.instance.parentId ? compiler`
+            <bld-vertical-spacer></bld-vertical-spacer>
+            <bld-floating-action-button @click=${this.openEditDialog.bind(this)}>edit</bld-floating-action-button>
+        ` : nothing;
 
-                .resource-header {
-                    margin-bottom: 0;
-                    padding: 8px;
-                }
+        return compiler`
+            ${unsafeHTML(styles)}
 
-                .resource-sub-header {
-                    padding: 8px;
-                }
-
-                .resource-container {
-                    flex: 1;
-                    display: flex;
-                }
-
-                .resource-details {
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                }
-            </style>
-
-            <div class="resource-container">
-                <div class="resource-actions-panel">
+            <div class="layout-row flex">
+                <div class="resource-actions-panel layout-column">
                     <bld-floating-action-button disabled>more_vert</bld-floating-action-button>
-                    ${this.instance.parentId ? compiler`
-                        <bld-vertical-spacer></bld-vertical-spacer>
-                        <bld-floating-action-button @click=${this.openEditDialog.bind(this)}>edit</bld-floating-action-button>
-                    ` : ''}
+                    ${compiledEditAction}
                 </div>
                 <bld-horizontal-divider></bld-horizontal-divider>
-                <div class="resource-details">
+                <div class="layout-column flex">
                     <h3 class="resource-header">${this.instance.title}</h3>
                     <i class="resource-sub-header">${this.instance.description}</i>
                 </div>
             </div>
-        ` : '';
+        `;
     }
 
     onCreate() {

@@ -1,4 +1,6 @@
-import {html, render} from 'lit-html';
+import {html, render, nothing} from 'lit-html';
+import {repeat} from 'lit-html/directives/repeat';
+import {unsafeHTML} from 'lit-html/directives/unsafe-html';
 
 const privates = new WeakMap();
 
@@ -50,7 +52,7 @@ export default class extends HTMLElement {
 
         await Promise.resolve();
 
-        render(this.render(html), this.shadowRoot, this.constructor.renderOptions);
+        render(this.render(html, {repeat, unsafeHTML}, {nothing}), this.shadowRoot, this.constructor.renderOptions);
 
         privates.get(this).awaitingForRender = false;
     }
@@ -60,9 +62,11 @@ export default class extends HTMLElement {
     /**
      * @abstract
      * @param {Function} compiler - template compiler
+     * @param {Object} directives - rendering helpers
+     * @param {Object} parts - rendering helpers
      * @return {*} compiled template
      */
-    render(compiler) {
+    render(compiler, directives, parts) {
         throw Error('method "render" is abstract and should be instantiated');
     }
 
