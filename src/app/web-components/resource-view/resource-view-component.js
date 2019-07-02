@@ -3,7 +3,7 @@ import BaseComponent from '../base-component';
 import structureUnitsStore from '../../stores/structure-units-store';
 import structureUnitsService from 'app/services/structure-units-service';
 
-class ToolView extends BaseComponent {
+class ResourceView extends BaseComponent {
     render(compiler) {
         return this.instance ? compiler`
             <style>
@@ -13,35 +13,35 @@ class ToolView extends BaseComponent {
                     flex-direction: column;
                 }
 
-                .tool-actions-panel {
+                .resource-actions-panel {
                     padding: 8px;
                     display: flex;
                     flex-direction: column;
                 }
 
-                .tool-header {
+                .resource-header {
                     margin-bottom: 0;
                     padding: 8px;
                 }
 
-                .tool-sub-header {
+                .resource-sub-header {
                     padding: 8px;
                 }
 
-                .tool-container {
+                .resource-container {
                     flex: 1;
                     display: flex;
                 }
 
-                .tool-details {
+                .resource-details {
                     flex: 1;
                     display: flex;
                     flex-direction: column;
                 }
             </style>
 
-            <div class="tool-container">
-                <div class="tool-actions-panel">
+            <div class="resource-container">
+                <div class="resource-actions-panel">
                     <bld-floating-action-button disabled>more_vert</bld-floating-action-button>
                     ${this.instance.parentId ? compiler`
                         <bld-vertical-spacer></bld-vertical-spacer>
@@ -49,9 +49,9 @@ class ToolView extends BaseComponent {
                     ` : ''}
                 </div>
                 <bld-horizontal-divider></bld-horizontal-divider>
-                <div class="tool-details">
-                    <h3 class="tool-header">${this.instance.title}</h3>
-                    <i class="tool-sub-header">${this.instance.description}</i>
+                <div class="resource-details">
+                    <h3 class="resource-header">${this.instance.title}</h3>
+                    <i class="resource-sub-header">${this.instance.description}</i>
                 </div>
             </div>
         ` : '';
@@ -91,7 +91,7 @@ class ToolView extends BaseComponent {
     }
 }
 
-customElements.define('bld-tool-view', ToolView);
+customElements.define('bld-resource-view', ResourceView);
 
 function onSelectionPathUpdate(context) {
     context.invalidate();
