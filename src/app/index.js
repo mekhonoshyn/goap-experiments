@@ -8,7 +8,6 @@ angular.module('builder', [
     'ngMaterial',
     'ngSanitize',
     'ngMessages',
-    'flux',
     'bcherny/ngimport'
 ])
     .config(configSecurityAndPerformance)

@@ -11,6 +11,4 @@ import 'angular-messages';
 import 'angular-sanitize';
 import '@uirouter/angularjs';
 
-import 'flux-angular';
-
 import 'ngimport';

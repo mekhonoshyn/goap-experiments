@@ -1,6 +1,4 @@
-import {
-    structureUnitsStore
-} from 'app/common/bld-imports';
+import structureUnitsStore from 'app/stores/structure-units-store';
 
 const NG_NAME = 'bldUniqueStructureUnit';
 const MESSAGE_KEY = 'bld-unique-structure-unit';

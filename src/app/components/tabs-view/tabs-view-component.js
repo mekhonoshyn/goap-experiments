@@ -1,3 +1,4 @@
+import './scss/tabs-view-styles.scss';
 import Component from 'cls/Component';
 import TabsViewController from './tabs-view-controller';
 import tabsViewTemplate from './html/tabs-view-template.html';

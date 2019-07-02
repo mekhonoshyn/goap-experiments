@@ -1,10 +1,14 @@
 import Service from 'cls/Service';
 import sqlService from '../../db/sql-service';
 import sqlBuilder from '../../db/sql-builder';
+import Dispatcher from '../common/dispatcher';
 import {
-    flux,
-    structureUnitsStore
-} from 'app/common/bld-imports';
+    POPULATE_STRUCTURE_UNITS,
+    CREATE_STRUCTURE_UNIT,
+    UPDATE_STRUCTURE_UNIT,
+    POPULATE_SELECTION_PATH
+} from '../actions/action-types.json';
+import structureUnitsStore from 'app/stores/structure-units-store';
 
 class StructureUnitsActions extends Service {
     fetchStructureUnits() {
@@ -12,7 +16,10 @@ class StructureUnitsActions extends Service {
             .then(([{values}]) => {
                 const structureUnits = values.map(structureUnitConverter);
 
-                flux.dispatch('POPULATE_STRUCTURE_UNITS', {structureUnits});
+                Dispatcher.dispatch({
+                    type: POPULATE_STRUCTURE_UNITS,
+                    data: {structureUnits}
+                });
             });
     }
     createStructureUnit({parentId, title, description = '', view}) {
@@ -23,7 +30,10 @@ class StructureUnitsActions extends Service {
             .then(([{values: [data]}]) => {
                 const structureUnit = structureUnitConverter(data);
 
-                flux.dispatch('CREATE_STRUCTURE_UNIT', {structureUnit});
+                Dispatcher.dispatch({
+                    type: CREATE_STRUCTURE_UNIT,
+                    data: {structureUnit}
+                });
 
                 this.selectStructureUnit(structureUnit.id);
             });
@@ -36,7 +46,10 @@ class StructureUnitsActions extends Service {
             .then(([{values: [data]}]) => {
                 const structureUnit = structureUnitConverter(data);
 
-                flux.dispatch('UPDATE_STRUCTURE_UNIT', {structureUnit});
+                Dispatcher.dispatch({
+                    type: UPDATE_STRUCTURE_UNIT,
+                    data: {structureUnit}
+                });
             });
     }
     selectStructureUnit(id) {
@@ -46,7 +59,10 @@ class StructureUnitsActions extends Service {
 
         const selectionPath = buildSelectionPath(id);
 
-        flux.dispatch('POPULATE_SELECTION_PATH', {selectionPath});
+        Dispatcher.dispatch({
+            type: POPULATE_SELECTION_PATH,
+            data: {selectionPath}
+        });
     }
 }
 

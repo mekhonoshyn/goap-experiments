@@ -1,9 +1,9 @@
 import Controller from 'cls/Controller';
 import {
-    structureUnitsStore,
     structureUnitsActions,
     structureUnitsService
 } from 'app/common/bld-imports';
+import structureUnitsStore from 'app/stores/structure-units-store';
 
 class TabsViewController extends Controller {
     constructor(...args) {
@@ -11,20 +11,26 @@ class TabsViewController extends Controller {
 
         Object.assign(this, {
             selectedIndex: -1,
-            tabInstances: []
+            tabInstances: [],
+
+            boundOnSelectionPathUpdate: this.bindAsCallback(onSelectionPathUpdate),
+            boundOnStructureUnitsUpdate: this.bindAsCallback(onStructureUnitsUpdate)
         });
     }
     $onInit() {
         console.log('$onInit:', this.instance);
 
-        this.$di.$scope.$listenTo(structureUnitsStore, ['structureUnits'], onStructureUnitsUpdate.bind(this));
-        this.$di.$scope.$listenTo(structureUnitsStore, ['selectionPath'], onSelectionPathUpdate.bind(this));
+        structureUnitsStore.subscribe(this.boundOnSelectionPathUpdate);
+        structureUnitsStore.subscribe(this.boundOnStructureUnitsUpdate);
     }
     $onChanges() {
         console.log('$onChanges:', this.instance);
     }
     $onDestroy() {
         console.log('$onDestroy:', this.instance);
+
+        structureUnitsStore.unSubscribe(this.boundOnSelectionPathUpdate);
+        structureUnitsStore.unSubscribe(this.boundOnStructureUnitsUpdate);
     }
     openCreateDialog() {
         structureUnitsService.openDialog({
@@ -44,23 +50,22 @@ class TabsViewController extends Controller {
 
 export default TabsViewController;
 
-function onStructureUnitsUpdate() {
-    this.tabInstances = structureUnitsStore.findStructureUnitChildren(this.instance.id)
+function onStructureUnitsUpdate(context) {
+    context.tabInstances = structureUnitsStore.findStructureUnitChildren(context.instance.id)
         .map((tabInstance) => Object.assign({}, tabInstance));
 }
 
-function onSelectionPathUpdate() {
-    const {selectionPath} = structureUnitsStore;
-    const parentIndex = selectionPath.indexOf(this.instance.id);
+function onSelectionPathUpdate(context) {
+    const parentIndex = structureUnitsStore.selectionPath.indexOf(context.instance.id);
 
     if (parentIndex === -1) {
-        this.selectedIndex = -1;
+        context.selectedIndex = -1;
 
         return;
     }
 
-    const childId = selectionPath[parentIndex + 1];
-    const childInstance = this.tabInstances.find(({id}) => id === childId);
+    const childId = structureUnitsStore.selectionPath[parentIndex + 1];
+    const childInstance = context.tabInstances.find(({id}) => id === childId);
 
-    this.selectedIndex = this.tabInstances.indexOf(childInstance);
+    context.selectedIndex = context.tabInstances.indexOf(childInstance);
 }

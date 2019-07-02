@@ -1,12 +1,12 @@
 import Controller from 'cls/Controller';
 import {
-    structureUnitsStore,
     structureUnitsActions,
     structureUnitsService
 } from 'app/common/bld-imports';
 import {
     $timeout
 } from 'ngimport';
+import structureUnitsStore from 'app/stores/structure-units-store';
 
 const LIST_ITEM_HEIGHT = 72;
 const LIST_PADDING = 8;
@@ -17,26 +17,32 @@ class ListViewController extends Controller {
 
         Object.assign(this, {
             itemInstances: [],
-            selectedItem: null
+            selectedItem: null,
+
+            boundOnSelectionPathUpdate: this.bindAsCallback(onSelectionPathUpdate),
+            boundOnStructureUnitsUpdate: this.bindAsCallback(onStructureUnitsUpdate)
         });
     }
     $onInit() {
         console.log('$onInit:', this.instance);
 
-        this.$di.$scope.$listenTo(structureUnitsStore, ['structureUnits'], onStructureUnitsUpdate.bind(this));
+        structureUnitsStore.subscribe(this.boundOnStructureUnitsUpdate);
     }
     $onChanges() {
         console.log('$onChanges:', this.instance);
     }
     $onDestroy() {
         console.log('$onDestroy:', this.instance);
+
+        structureUnitsStore.unSubscribe(this.boundOnSelectionPathUpdate);
+        structureUnitsStore.unSubscribe(this.boundOnStructureUnitsUpdate);
     }
     $postLink() {
         Object.assign(this, {
             inkBarElement: this.$di.$element.find('md-ink-bar'),
             contentElement: this.$di.$element.find('md-content')
         });
-        this.$di.$scope.$listenTo(structureUnitsStore, ['selectionPath'], onSelectionPathUpdate.bind(this));
+        structureUnitsStore.subscribe(this.boundOnSelectionPathUpdate);
     }
     openCreateDialog() {
         structureUnitsService.openDialog({
@@ -56,32 +62,31 @@ class ListViewController extends Controller {
 
 export default ListViewController;
 
-function onStructureUnitsUpdate() {
-    this.itemInstances = structureUnitsStore.findStructureUnitChildren(this.instance.id)
+function onStructureUnitsUpdate(context) {
+    context.itemInstances = structureUnitsStore.findStructureUnitChildren(context.instance.id)
         .map((itemInstance) => Object.assign({}, itemInstance));
 }
 
-function onSelectionPathUpdate() {
-    const {selectionPath} = structureUnitsStore;
-    const parentIndex = selectionPath.indexOf(this.instance.id);
+function onSelectionPathUpdate(context) {
+    const parentIndex = structureUnitsStore.selectionPath.indexOf(context.instance.id);
 
     if (parentIndex === -1) {
-        resetSelection.call(this);
+        resetSelection.call(context);
 
         return;
     }
 
-    const childId = selectionPath[parentIndex + 1];
-    const childInstance = this.itemInstances.find(({id}) => id === childId);
-    const childIndex = this.itemInstances.indexOf(childInstance);
+    const childId = structureUnitsStore.selectionPath[parentIndex + 1];
+    const childInstance = context.itemInstances.find(({id}) => id === childId);
+    const childIndex = context.itemInstances.indexOf(childInstance);
 
     if (childIndex === -1) {
-        resetSelection.call(this);
+        resetSelection.call(context);
 
         return;
     }
 
-    setSelection.call(this, childIndex);
+    setSelection.call(context, childIndex);
 
     const [
         inkBarElementTop,
@@ -92,9 +97,9 @@ function onSelectionPathUpdate() {
     ] = [
         childIndex * LIST_ITEM_HEIGHT + LIST_PADDING,
         childIndex * LIST_ITEM_HEIGHT + LIST_ITEM_HEIGHT + LIST_PADDING,
-        this.contentElement[0].scrollTop,
-        this.contentElement[0].clientHeight,
-        this.contentElement[0].scrollTop + this.contentElement[0].clientHeight
+        context.contentElement[0].scrollTop,
+        context.contentElement[0].clientHeight,
+        context.contentElement[0].scrollTop + context.contentElement[0].clientHeight
     ];
 
     const [
@@ -111,15 +116,15 @@ function onSelectionPathUpdate() {
 
     if (ABOVE_TOP_BORDER || BEHIND_BOTTOM_BORDER) {
         $timeout(() => {
-            this.contentElement[0].scrollTop = (inkBarElementBottom + inkBarElementTop - contentElementHeight) >> 1;
+            context.contentElement[0].scrollTop = (inkBarElementBottom + inkBarElementTop - contentElementHeight) >> 1;
         });
     } else if (OVER_TOP_BORDER) {
         $timeout(() => {
-            this.contentElement[0].scrollTop = inkBarElementTop;
+            context.contentElement[0].scrollTop = inkBarElementTop;
         });
     } else if (OVER_BOTTOM_BORDER) {
         $timeout(() => {
-            this.contentElement[0].scrollTop = inkBarElementBottom - contentElementHeight;
+            context.contentElement[0].scrollTop = inkBarElementBottom - contentElementHeight;
         });
     }
 }
