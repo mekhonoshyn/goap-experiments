@@ -1,12 +1,12 @@
 import Controller from 'cls/Controller';
 import {
-    structureUnitsActions,
-    structureUnitsService
+    structureUnitsActions
 } from 'app/common/bld-imports';
 import {
     $timeout
 } from 'ngimport';
 import structureUnitsStore from 'app/stores/structure-units-store';
+import structureUnitsService from 'app/services/structure-units-service';
 
 const LIST_ITEM_HEIGHT = 72;
 const LIST_PADDING = 8;

@@ -1,7 +1,6 @@
 import Controller from 'cls/Controller';
-import {
-    structureUnitsService
-} from 'app/common/bld-imports';
+
+import structureUnitsService from 'app/services/structure-units-service';
 
 class GoalViewController extends Controller {
     $onInit() {

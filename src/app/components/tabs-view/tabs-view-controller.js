@@ -1,9 +1,9 @@
 import Controller from 'cls/Controller';
 import {
-    structureUnitsActions,
-    structureUnitsService
+    structureUnitsActions
 } from 'app/common/bld-imports';
 import structureUnitsStore from 'app/stores/structure-units-store';
+import structureUnitsService from 'app/services/structure-units-service';
 
 class TabsViewController extends Controller {
     constructor(...args) {

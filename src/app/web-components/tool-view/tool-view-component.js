@@ -1,9 +1,7 @@
 import BaseComponent from '../base-component';
 
-import {
-    structureUnitsService
-} from 'app/common/bld-imports';
 import structureUnitsStore from '../../stores/structure-units-store';
+import structureUnitsService from 'app/services/structure-units-service';
 
 class ToolView extends BaseComponent {
     render(compiler) {
