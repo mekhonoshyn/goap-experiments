@@ -25,7 +25,9 @@ function copyStylesheets() {
     return gulp
         .src([
             'node_modules/@material/button/dist/mdc.button.min.css',
-            'node_modules/@material/button/dist/mdc.button.min.css.map'
+            'node_modules/@material/button/dist/mdc.button.min.css.map',
+            'node_modules/@material/list/dist/mdc.list.min.css',
+            'node_modules/@material/list/dist/mdc.list.min.css.map'
         ])
         .pipe(gulp.dest(path.join(distPath, 'css')));
 }

@@ -21,6 +21,7 @@
   "homepage": "https://github.com/mekhonoshyn/goap-experiments#readme",
   "dependencies": {
     "@material/button": "^2.3.0",
+    "@material/list": "^3.0.0",
     "@uirouter/angularjs": "^1.0.15",
     "angular": "^1.6.9",
     "angular-animate": "^1.6.9",

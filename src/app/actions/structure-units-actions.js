@@ -8,6 +8,7 @@ import {
     POPULATE_SELECTION_PATH
 } from '../actions/action-types.json';
 import structureUnitsStore from 'app/stores/structure-units-store';
+import structureUnitsService from 'app/services/structure-units-service';
 
 export default {
     fetchStructureUnits,
@@ -74,13 +75,13 @@ function selectStructureUnit(id) {
 }
 
 function buildSelectionPath(id) {
-    const structureUnit = structureUnitsStore.findStructureUnit(id);
+    const structureUnit = structureUnitsService.findStructureUnit(id);
 
     if (!structureUnit) {
         return [];
     }
 
-    const parentStructureUnit = structureUnitsStore.findStructureUnit(structureUnit.parentId);
+    const parentStructureUnit = structureUnitsService.findStructureUnit(structureUnit.parentId);
 
     if (!parentStructureUnit) {
         return [id];

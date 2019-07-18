@@ -1,5 +1,6 @@
 import Controller from 'cls/Controller';
 import structureUnitsStore from 'app/stores/structure-units-store';
+import structureUnitsService from 'app/services/structure-units-service';
 
 class StructureRootController extends Controller {
     constructor(...args) {
@@ -30,5 +31,5 @@ class StructureRootController extends Controller {
 export default StructureRootController;
 
 function onStructureUnitsUpdate(context) {
-    context.rootInstance = structureUnitsStore.findStructureUnit(1);
+    context.rootInstance = structureUnitsService.findStructureUnit(1);
 }

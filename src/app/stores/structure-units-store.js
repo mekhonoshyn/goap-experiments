@@ -31,14 +31,6 @@ class StructureUnitsStore extends Store {
     get selectionPath() {
         return this.getState().selectionPath;
     }
-
-    findStructureUnit(unitId) {
-        return this.structureUnits.find(({id}) => id === unitId);
-    }
-
-    findStructureUnitChildren(unitId) {
-        return this.structureUnits.filter(({parentId}) => parentId === unitId);
-    }
 }
 
 export default new StructureUnitsStore(Dispatcher);

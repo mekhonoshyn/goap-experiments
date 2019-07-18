@@ -13,7 +13,7 @@ class Button extends BaseComponent {
                 }
             </style>
 
-            <button class="mdc-button mdc-button--dense" ?disabled=${this.isDisabled}>
+            <button class="mdc-button mdc-button--dense" ?disabled=${this.disabled}>
                 <span class="mdc-button__label">
                     <slot></slot>
                 </span>
@@ -38,7 +38,7 @@ class Button extends BaseComponent {
         return ['disabled'];
     }
 
-    get isDisabled() {
+    get disabled() {
         return this.hasAttribute('disabled');
     }
 }
@@ -54,7 +54,7 @@ class ActionButton extends Button {
                 }
             </style>
 
-            <button class="mdc-button mdc-button--raised mdc-button--dense" ?disabled=${this.isDisabled}>
+            <button class="mdc-button mdc-button--raised mdc-button--dense" ?disabled=${this.disabled}>
                 <span class="mdc-button__label">
                     <slot></slot>
                 </span>
@@ -89,7 +89,7 @@ class FloatingActionButton extends Button {
                 }
             </style>
 
-            <button class="mdc-button mdc-button--raised mdc-button--dense" ?disabled=${this.isDisabled}>
+            <button class="mdc-button mdc-button--raised mdc-button--dense" ?disabled=${this.disabled}>
                 <span class="material-icons mdc-button__icon"
                    aria-hidden="true">
                     <slot></slot>
@@ -114,7 +114,7 @@ function keyDownEventHandler(element, event) {
 }
 
 function preventActionIfDisabled(element, event) {
-    if (element.isDisabled) {
+    if (element.disabled) {
         event.preventDefault();
         event.stopImmediatePropagation();
     }

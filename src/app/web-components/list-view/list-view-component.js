@@ -1,11 +1,12 @@
 import BaseComponent from '../base-component';
 
-import styles from './tool-view-styles.html';
+import styles from './list-view-styles.html';
 
-import structureUnitsStore from '../../stores/structure-units-store';
+import structureUnitsStore from 'app/stores/structure-units-store';
+import structureUnitsActions from 'app/actions/structure-units-actions';
 import structureUnitsService from 'app/services/structure-units-service';
 
-class ToolView extends BaseComponent {
+class ListView extends BaseComponent {
     render(compiler, {unsafeHTML}, {nothing}) {
         if (!this.instanceId) {
             return nothing;
@@ -18,16 +19,21 @@ class ToolView extends BaseComponent {
 
         return compiler`
             ${unsafeHTML(styles)}
-
-            <div class="tool-actions-panel layout-column">
+            
+            <div class="list-actions-panel layout-column">
                 <bld-floating-action-button disabled>more_vert</bld-floating-action-button>
                 ${compiledEditAction}
+                <bld-vertical-spacer></bld-vertical-spacer>
+                <bld-vertical-divider></bld-vertical-divider>
+                <bld-vertical-spacer></bld-vertical-spacer>
+                <bld-floating-action-button @click=${this.openCreateDialog.bind(this)}>add</bld-floating-action-button>
             </div>
             <bld-horizontal-divider></bld-horizontal-divider>
-            <div class="layout-column flex">
-                <h3 class="tool-header">${this.instance.title}</h3>
-                <i class="tool-sub-header">${this.instance.description}</i>
-            </div>
+            <bld-abstract-list selected-index=${this.selectedIndex} .listItems=${this.listItems} .trackBy=${({id}) => id} .hasIconGraphic=${true} .hasSecondaryText=${true} @select=${({detail}) => this.handleSelect(detail)}></bld-abstract-list>
+            ${this.selectedItem ? compiler`
+                <bld-structure-unit-new class="flex"
+                   instance-id="${this.selectedItem.id}"></bld-structure-unit-new>
+            ` : nothing}
         `;
     }
 
@@ -56,6 +62,18 @@ class ToolView extends BaseComponent {
         structureUnitsService.openDialog(Object.assign({}, this.instance));
     }
 
+    openCreateDialog() {
+        structureUnitsService.openDialog({
+            parentId: this.instance.id
+        });
+    }
+
+    handleSelect(selectedIndex) {
+        const selectedItem = this.listItems[selectedIndex];
+
+        structureUnitsActions.selectStructureUnit(selectedItem.id);
+    }
+
     get instance() {
         const {instanceId} = this;
 
@@ -72,6 +90,29 @@ class ToolView extends BaseComponent {
         return instanceId;
     }
 
+    get selectedItem() {
+        const {instanceId} = this;
+
+        return structureUnitsService.findStructureUnitSelectedChild(instanceId);
+    }
+
+    get listItems() {
+        const {instanceId} = this;
+
+        return structureUnitsService.findStructureUnitChildren(instanceId)
+            .map(({id, title: primaryText, description: secondaryText}) => ({id, primaryText, secondaryText, iconGraphic: 'star'}));
+    }
+
+    get selectedIndex() {
+        const {listItems, selectedItem} = this;
+
+        if (!selectedItem) {
+            return -1;
+        }
+
+        return listItems.findIndex(({id}) => id === selectedItem.id);
+    }
+
     get isEditable() {
         const {instance} = this;
 
@@ -83,7 +124,7 @@ class ToolView extends BaseComponent {
     }
 }
 
-customElements.define('bld-tool-view', ToolView);
+customElements.define('bld-list-view', ListView);
 
 function onSelectionPathUpdate(context) {
     context.invalidate();

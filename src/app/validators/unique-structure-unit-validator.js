@@ -1,4 +1,4 @@
-import structureUnitsStore from 'app/stores/structure-units-store';
+import structureUnitsService from 'app/services/structure-units-service';
 
 const NG_NAME = 'bldUniqueStructureUnit';
 const MESSAGE_KEY = 'bld-unique-structure-unit';
@@ -18,7 +18,7 @@ function uniqueStructureUnitValidator() {
             const unitsPool = [];
 
             scope.$watch(() => scope.parent, (parentId) => {
-                const filteredUnits = structureUnitsStore.findStructureUnitChildren(parentId)
+                const filteredUnits = structureUnitsService.findStructureUnitChildren(parentId)
                     .filter(({id}) => id !== scope.ownId);
 
                 unitsPool.splice(0, Number.POSITIVE_INFINITY, ...filteredUnits);

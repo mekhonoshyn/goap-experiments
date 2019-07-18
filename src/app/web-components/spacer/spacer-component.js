@@ -5,24 +5,28 @@ const TINY = 'tiny';
 const SIZES = [TINY];
 
 class Spacer extends BaseComponent {
-    onCreate() {
-        this.compiledClasses = SIZES.map((size, index) => `.${size} {padding: ${this.constructor.values(index + 1).join(' ')};}`).join('');
-    }
-
     render(compiler) {
         return compiler`
             <style>
-                ${this.compiledClasses}
+                ${this.classes}
             </style>
 
             <div class="${this.size}"></div>
         `;
     }
 
+    get classes() {
+        return SIZES.map((size, index) => `.${size} {padding: ${this.constructor.values(index + 1).join(' ')};}`).join('');
+    }
+
     get size() {
         const size = this.getAttribute('size');
 
-        return SIZES.includes(size) ? size : TINY;
+        if (!SIZES.includes(size)) {
+            return TINY;
+        }
+
+        return size;
     }
 
     static values() {

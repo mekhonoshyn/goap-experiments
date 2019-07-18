@@ -49,7 +49,7 @@ class TabsViewController extends Controller {
 export default TabsViewController;
 
 function onStructureUnitsUpdate(context) {
-    context.tabInstances = structureUnitsStore.findStructureUnitChildren(context.instance.id)
+    context.tabInstances = structureUnitsService.findStructureUnitChildren(context.instance.id)
         .map((tabInstance) => Object.assign({}, tabInstance));
 }
 

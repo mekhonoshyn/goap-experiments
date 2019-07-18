@@ -7,11 +7,11 @@ import structureUnitsService from 'app/services/structure-units-service';
 
 class ResourceView extends BaseComponent {
     render(compiler, {unsafeHTML}, {nothing}) {
-        if (!this.instance) {
+        if (!this.instanceId) {
             return nothing;
         }
 
-        const compiledEditAction = this.instance.parentId ? compiler`
+        const compiledEditAction = this.isEditable ? compiler`
             <bld-vertical-spacer></bld-vertical-spacer>
             <bld-floating-action-button @click=${this.openEditDialog.bind(this)}>edit</bld-floating-action-button>
         ` : nothing;
@@ -19,16 +19,14 @@ class ResourceView extends BaseComponent {
         return compiler`
             ${unsafeHTML(styles)}
 
-            <div class="layout-row flex">
-                <div class="resource-actions-panel layout-column">
-                    <bld-floating-action-button disabled>more_vert</bld-floating-action-button>
-                    ${compiledEditAction}
-                </div>
-                <bld-horizontal-divider></bld-horizontal-divider>
-                <div class="layout-column flex">
-                    <h3 class="resource-header">${this.instance.title}</h3>
-                    <i class="resource-sub-header">${this.instance.description}</i>
-                </div>
+            <div class="resource-actions-panel layout-column">
+                <bld-floating-action-button disabled>more_vert</bld-floating-action-button>
+                ${compiledEditAction}
+            </div>
+            <bld-horizontal-divider></bld-horizontal-divider>
+            <div class="layout-column flex">
+                <h3 class="resource-header">${this.instance.title}</h3>
+                <i class="resource-sub-header">${this.instance.description}</i>
             </div>
         `;
     }
@@ -50,10 +48,6 @@ class ResourceView extends BaseComponent {
         structureUnitsStore.unSubscribe(this.boundOnStructureUnitsUpdate);
     }
 
-    prepareData() {
-        this.instance = structureUnitsStore.findStructureUnit(this.instanceId);
-    }
-
     static get observedAttributes() {
         return ['instance-id'];
     }
@@ -62,8 +56,30 @@ class ResourceView extends BaseComponent {
         structureUnitsService.openDialog(Object.assign({}, this.instance));
     }
 
+    get instance() {
+        const {instanceId} = this;
+
+        return structureUnitsService.findStructureUnit(instanceId);
+    }
+
     get instanceId() {
-        return parseInt(this.getAttribute('instance-id'), 10);
+        const instanceId = parseInt(this.getAttribute('instance-id'), 10);
+
+        if (isNaN(instanceId)) {
+            return null;
+        }
+
+        return instanceId;
+    }
+
+    get isEditable() {
+        const {instance} = this;
+
+        if (!instance) {
+            return false;
+        }
+
+        return Boolean(instance.parentId);
     }
 }
 
