@@ -48,15 +48,17 @@ export default class extends HTMLElement {
             return;
         }
 
-        await this.prepareData();
-
         this.setPrivate('awaitingForRender', true);
 
-        await Promise.resolve();
+        await this.prepareData();
 
-        render(this.render(html, {repeat, unsafeHTML}, {nothing, nothingFn}), this.shadowRoot, this.constructor.renderOptions);
+        if (!hasPrivates(this)) {
+            return;
+        }
 
         this.setPrivate('awaitingForRender', false);
+
+        render(this.render(html, {repeat, unsafeHTML}, {nothing, nothingFn}), this.shadowRoot, this.constructor.renderOptions);
     }
 
     prepareData() {}
@@ -73,21 +75,11 @@ export default class extends HTMLElement {
     }
 
     getPrivate(key) {
-        const privates = readPrivates(this);
-
-        if (privates) {
-            return privates[key];
-        }
-
-        return undefined;
+        return readPrivates(this)[key];
     }
 
     setPrivate(key, value) {
-        const privates = readPrivates(this);
-
-        if (privates) {
-            privates[key] = value;
-        }
+        readPrivates(this)[key] = value;
     }
 
     static get observedAttributes() {
@@ -109,6 +101,10 @@ function createPrivates(context) {
 
 function deletePrivates(context) {
     privatesMap.delete(context);
+}
+
+function hasPrivates(context) {
+    return privatesMap.has(context);
 }
 
 function nothingFn() {

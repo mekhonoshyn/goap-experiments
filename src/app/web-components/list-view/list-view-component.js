@@ -31,8 +31,7 @@ class ListView extends BaseComponent {
             <bld-horizontal-divider></bld-horizontal-divider>
             <bld-abstract-list selected-index=${this.selectedIndex} .listItems=${this.listItems} .trackBy=${({id}) => id} .hasIconGraphic=${true} .hasSecondaryText=${true} @select=${({detail}) => this.handleSelect(detail)}></bld-abstract-list>
             ${this.selectedItem ? compiler`
-                <bld-structure-unit-new class="flex"
-                   instance-id="${this.selectedItem.id}"></bld-structure-unit-new>
+                <bld-structure-unit-new instance-id="${this.selectedItem.id}"></bld-structure-unit-new>
             ` : nothing}
         `;
     }

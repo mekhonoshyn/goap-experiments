@@ -125,6 +125,18 @@ function runApplication(
                 'process-view'
             ].map((type) => `
                 INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "$${type}$", "#${type}#", "${sqlBuilder.fromJSON({type})}");
+            `).join('')}
+        `);
+
+        await sqlWorker.execute(`
+            ${[
+                'tabs-view',
+                'list-view',
+                'goal-view',
+                'resource-view',
+                'tool-view',
+                'process-view'
+            ].map((type) => `
                 INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "$${type}$", "#${type}#", "${sqlBuilder.fromJSON({type})}");
             `).join('')}
         `);
@@ -139,6 +151,10 @@ function runApplication(
                 'process-view'
             ].map((type) => `INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "$${type}$", "#${type}#", "${sqlBuilder.fromJSON({type})}");`).join('')}
         `);
+
+        await sqlWorker.execute(`
+            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(45, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        `.repeat(20));
 
         require('app/actions/structure-units-actions').default.fetchStructureUnits();
     })();
