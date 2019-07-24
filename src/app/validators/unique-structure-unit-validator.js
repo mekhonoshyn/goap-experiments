@@ -31,6 +31,8 @@ function uniqueStructureUnitValidator() {
                     return true;
                 }
 
+                ngModelCtrl.$touched = true;
+
                 const lowerCasedViewValue = String(viewValue).toLowerCase();
 
                 if (unitsPool.some(({title}) => String(title).toLowerCase() === lowerCasedViewValue)) {

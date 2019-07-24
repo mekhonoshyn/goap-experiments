@@ -1,18 +1,18 @@
 import BaseComponent from '../base-component';
 
-import styles from './list-view-styles.html';
+import styles from './tabs-view-styles.html';
 
 import structureUnitsStore from 'app/stores/structure-units-store';
 import structureUnitsActions from 'app/actions/structure-units-actions';
 import structureUnitsService from 'app/services/structure-units-service';
 
-class ListView extends BaseComponent {
+class TabsView extends BaseComponent {
     render(compiler, {unsafeHTML}, {nothing}) {
         if (!this.instanceId) {
             return nothing;
         }
 
-        const {isEditable, listItems, selectedItem, selectedIndex} = this;
+        const {isEditable, tabsItems, selectedItem, selectedIndex} = this;
         const openCreateDialog = this.openCreateDialog.bind(this);
         const openEditDialog = this.openEditDialog.bind(this);
         const handleSelect = this.handleSelect.bind(this);
@@ -20,7 +20,7 @@ class ListView extends BaseComponent {
         return compiler`
             ${unsafeHTML(styles)}
             
-            <div class="list-actions-panel layout-column">
+            <div class="tabs-actions-panel layout-column">
                 <bld-floating-action-button disabled>more_vert</bld-floating-action-button>
                 ${getEditActionMarkup()}
                 <bld-vertical-spacer></bld-vertical-spacer>
@@ -29,8 +29,10 @@ class ListView extends BaseComponent {
                 <bld-floating-action-button @click=${openCreateDialog}>add</bld-floating-action-button>
             </div>
             <bld-horizontal-divider></bld-horizontal-divider>
-            ${getAbstractListMarkup()}
-            ${getStructureUnitMarkup()}
+            <div style="min-width: 0; flex: 1; display: flex; flex-direction: column;">
+                ${getAbstractTabsMarkup()}
+                ${getStructureUnitMarkup()}
+            </div>
         `;
 
         function getEditActionMarkup() {
@@ -40,9 +42,10 @@ class ListView extends BaseComponent {
             ` : nothing;
         }
 
-        function getAbstractListMarkup() {
-            return listItems.length ? compiler`
-                <bld-abstract-list selected-index=${selectedIndex} .listItems=${listItems} .trackBy=${({id}) => id} .hasIconGraphic=${true} .hasSecondaryText=${true} @select=${({detail}) => handleSelect(detail)}></bld-abstract-list>
+        function getAbstractTabsMarkup() {
+            return tabsItems.length ? compiler`
+                <bld-abstract-tabs selected-index=${selectedIndex} .tabsItems=${tabsItems} .trackBy=${({id}) => id} .hasIconGraphic=${false} @select=${({detail}) => handleSelect(detail)}></bld-abstract-tabs>
+                <bld-vertical-divider></bld-vertical-divider>
             ` : nothing;
         }
 
@@ -85,7 +88,7 @@ class ListView extends BaseComponent {
     }
 
     handleSelect(selectedIndex) {
-        const selectedItem = this.listItems[selectedIndex];
+        const selectedItem = this.tabsItems[selectedIndex];
 
         structureUnitsActions.selectStructureUnit(selectedItem.id);
     }
@@ -112,21 +115,21 @@ class ListView extends BaseComponent {
         return structureUnitsService.findStructureUnitSelectedChild(instanceId);
     }
 
-    get listItems() {
+    get tabsItems() {
         const {instanceId} = this;
 
         return structureUnitsService.findStructureUnitChildren(instanceId)
-            .map(({id, title: primaryText, description: secondaryText}) => ({id, primaryText, secondaryText, iconGraphic: 'star'}));
+            .map(({id, title}) => ({id, title, iconGraphic: 'star'}));
     }
 
     get selectedIndex() {
-        const {listItems, selectedItem} = this;
+        const {tabsItems, selectedItem} = this;
 
         if (!selectedItem) {
             return -1;
         }
 
-        return listItems.findIndex(({id}) => id === selectedItem.id);
+        return tabsItems.findIndex(({id}) => id === selectedItem.id);
     }
 
     get isEditable() {
@@ -140,7 +143,7 @@ class ListView extends BaseComponent {
     }
 }
 
-customElements.define('bld-list-view', ListView);
+customElements.define('bld-tabs-view', TabsView);
 
 function onSelectionPathUpdate(context) {
     context.invalidate();

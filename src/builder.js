@@ -14,3 +14,5 @@ import 'app/web-components/goal-view/goal-view-component';
 import 'app/web-components/list-view/list-view-component';
 import 'app/web-components/abstract-list/abstract-list-component';
 import 'app/web-components/structure-unit/structure-unit-component';
+import 'app/web-components/tabs-view/tabs-view-component';
+import 'app/web-components/abstract-tabs/abstract-tabs-component';

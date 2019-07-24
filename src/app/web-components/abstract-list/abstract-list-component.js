@@ -5,7 +5,7 @@ import styles from './abstract-list-styles.html';
 class AbstractList extends BaseComponent {
     render(compiler, {unsafeHTML, repeat}, {nothing, nothingFn}) {
         const {hasIconGraphic, hasSecondaryText, selectedIndex, listItems, trackBy} = this;
-        const handleClick = this.handleClick.bind(this);
+        const handleListItemSelect = this.handleListItemSelect.bind(this);
 
         const iconStylesheetMarkup = hasIconGraphic ? compiler`
             <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
@@ -15,27 +15,27 @@ class AbstractList extends BaseComponent {
 
         return compiler`
             <link rel="stylesheet" href="css/mdc.list.min.css"/>
-            
+
             ${iconStylesheetMarkup}
 
             ${unsafeHTML(styles)}
-            
+
             <ul class="mdc-list ${hasSecondaryText ? 'mdc-list--two-line' : ''} flex"
-               @click=${handleClick}>
+               @click=${handleListItemSelect}>
                 ${repeat(listItems, trackBy, getItemTemplateMarkup)}
             </ul>
         `;
 
         function getIconGraphicMarkup(itemInstance) {
             return compiler`
-                <span class="material-icons mdc-list-item__graphic"
-                   aria-hidden="true">${itemInstance.iconGraphic}</span>
+                <span class="material-icons mdc-list-item__graphic">${itemInstance.iconGraphic}</span>
             `;
         }
 
         function getItemTemplateMarkup(itemInstance, index) {
             return compiler`
-                <li class="mdc-list-item ${index === selectedIndex ? 'mdc-list-item--selected' : ''}" data-index=${index}>
+                <li class="mdc-list-item ${index === selectedIndex ? 'mdc-list-item--selected' : ''}"
+                   data-index=${index}>
                     ${iconMarkup(itemInstance)}
                     ${textMarkup(itemInstance)}
                 </li>
@@ -82,7 +82,7 @@ class AbstractList extends BaseComponent {
         return ['selected-index'];
     }
 
-    handleClick(event) {
+    handleListItemSelect(event) {
         const listItemElement = event.composedPath().find(({classList}) => classList && classList.contains('mdc-list-item'));
 
         if (!listItemElement) {

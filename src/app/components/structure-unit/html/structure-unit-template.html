@@ -2,9 +2,7 @@
    layout="column"
    flex>
     <bld-tabs-view ng-switch-when="tabs-view"
-       bld-tabs-view-instance="structureUnitCtrl.instance"
-       layout="column"
-       flex></bld-tabs-view>
+       instance-id="{{structureUnitCtrl.instance.id}}"></bld-tabs-view>
     <bld-list-view ng-switch-when="list-view"
        instance-id="{{structureUnitCtrl.instance.id}}"></bld-list-view>
     <bld-goal-view ng-switch-when="goal-view"

@@ -27,7 +27,15 @@ function copyStylesheets() {
             'node_modules/@material/button/dist/mdc.button.min.css',
             'node_modules/@material/button/dist/mdc.button.min.css.map',
             'node_modules/@material/list/dist/mdc.list.min.css',
-            'node_modules/@material/list/dist/mdc.list.min.css.map'
+            'node_modules/@material/list/dist/mdc.list.min.css.map',
+            'node_modules/@material/tab-bar/dist/mdc.tab-bar.min.css',
+            'node_modules/@material/tab-bar/dist/mdc.tab-bar.min.css.map',
+            'node_modules/@material/tab-scroller/dist/mdc.tab-scroller.min.css',
+            'node_modules/@material/tab-scroller/dist/mdc.tab-scroller.min.css.map',
+            'node_modules/@material/tab-indicator/dist/mdc.tab-indicator.min.css',
+            'node_modules/@material/tab-indicator/dist/mdc.tab-indicator.min.css.map',
+            'node_modules/@material/tab/dist/mdc.tab.min.css',
+            'node_modules/@material/tab/dist/mdc.tab.min.css.map'
         ])
         .pipe(gulp.dest(path.join(distPath, 'css')));
 }

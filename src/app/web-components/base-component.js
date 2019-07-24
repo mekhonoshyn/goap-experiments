@@ -59,6 +59,8 @@ export default class extends HTMLElement {
         this.setPrivate('awaitingForRender', false);
 
         render(this.render(html, {repeat, unsafeHTML}, {nothing, nothingFn}), this.shadowRoot, this.constructor.renderOptions);
+
+        this.onRender();
     }
 
     prepareData() {}
@@ -73,6 +75,8 @@ export default class extends HTMLElement {
     render(compiler, directives, parts) {
         throw Error('method "render" is abstract and should be instantiated');
     }
+
+    onRender() {}
 
     getPrivate(key) {
         return readPrivates(this)[key];
