@@ -48,7 +48,7 @@ class ListView extends BaseComponent {
 
         function getStructureUnitMarkup() {
             return selectedItem ? compiler`
-                <bld-structure-unit-new instance-id="${selectedItem.id}"></bld-structure-unit-new>
+                <bld-structure-unit instance-id="${selectedItem.id}"></bld-structure-unit>
             ` : nothing;
         }
     }

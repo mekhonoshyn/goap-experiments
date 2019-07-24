@@ -38,7 +38,7 @@ class StructureUnitView extends BaseComponent {
     }
 }
 
-customElements.define('bld-structure-unit-new', StructureUnitView);
+customElements.define('bld-structure-unit', StructureUnitView);
 
 function getCompiledComponent(instance, {compiler, nothing}) {
     switch (instance.view.type) {
