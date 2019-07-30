@@ -1,6 +1,7 @@
 import {html, render, nothing} from 'lit-html';
 import {repeat} from 'lit-html/directives/repeat';
 import {unsafeHTML} from 'lit-html/directives/unsafe-html';
+import sleep from 'tools/sleep';
 
 const privatesMap = new WeakMap();
 
@@ -12,13 +13,15 @@ export default class extends HTMLElement {
 
         this.setPrivate('awaitingForRender', false);
 
-        this.attachShadow({mode: 'open'});
+        if (this.constructor.hasShadowDOM) {
+            this.attachShadow({mode: 'open'});
+        }
 
         this.onCreate();
     }
 
-    connectedCallback() {
-        this.invalidate();
+    async connectedCallback() {
+        await this.invalidate();
 
         this.onConnect();
     }
@@ -50,7 +53,7 @@ export default class extends HTMLElement {
 
         this.setPrivate('awaitingForRender', true);
 
-        await this.prepareData();
+        await sleep();
 
         if (!hasPrivates(this)) {
             return;
@@ -58,22 +61,15 @@ export default class extends HTMLElement {
 
         this.setPrivate('awaitingForRender', false);
 
-        render(this.render(html, {repeat, unsafeHTML}, {nothing, nothingFn}), this.shadowRoot, this.constructor.renderOptions);
+        if (this.constructor.hasShadowDOM) {
+            render(this.render(html, {repeat, unsafeHTML}, {nothing, nothingFn}), this.shadowRoot, this.renderOptions);
+        }
 
         this.onRender();
     }
 
-    prepareData() {}
-
-    /**
-     * @abstract
-     * @param {Function} compiler - template compiler
-     * @param {Object} [directives] - rendering helpers
-     * @param {Object} [parts] - rendering helpers
-     * @return {*} compiled template
-     */
     render(compiler, directives, parts) {
-        throw Error('method "render" is abstract and should be instantiated');
+        return nothing;
     }
 
     onRender() {}
@@ -90,7 +86,11 @@ export default class extends HTMLElement {
         return [];
     }
 
-    static get renderOptions() {
+    static get hasShadowDOM() {
+        return true;
+    }
+
+    get renderOptions() {
         return {};
     }
 }

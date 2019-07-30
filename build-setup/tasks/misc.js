@@ -35,7 +35,11 @@ function copyStylesheets() {
             'node_modules/@material/tab-indicator/dist/mdc.tab-indicator.min.css',
             'node_modules/@material/tab-indicator/dist/mdc.tab-indicator.min.css.map',
             'node_modules/@material/tab/dist/mdc.tab.min.css',
-            'node_modules/@material/tab/dist/mdc.tab.min.css.map'
+            'node_modules/@material/tab/dist/mdc.tab.min.css.map',
+            'node_modules/@material/dialog/dist/mdc.dialog.min.css',
+            'node_modules/@material/dialog/dist/mdc.dialog.min.css.map',
+            'node_modules/@material/textfield/dist/mdc.textfield.min.css',
+            'node_modules/@material/textfield/dist/mdc.textfield.min.css.map'
         ])
         .pipe(gulp.dest(path.join(distPath, 'css')));
 }
