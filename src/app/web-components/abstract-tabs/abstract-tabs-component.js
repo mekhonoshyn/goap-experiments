@@ -2,6 +2,10 @@ import BaseComponent from '../base-component';
 
 import styles from './abstract-tabs-styles.html';
 
+import {
+    createArrayDefinition
+} from 'tools/definitions';
+
 const PAGINATION_FACTOR = 0.8;
 
 class AbstractTabs extends BaseComponent {
@@ -89,10 +93,6 @@ class AbstractTabs extends BaseComponent {
         }
     }
 
-    onCreate() {
-        this.setPrivate('tabsItems', []);
-    }
-
     onRender() {
         this.staticWrapper = this.shadowRoot.querySelector('.mdc-tab-scroller__scroll-area');
         this.movableContent = this.shadowRoot.querySelector('.mdc-tab-scroller__scroll-content');
@@ -143,11 +143,11 @@ class AbstractTabs extends BaseComponent {
     }
 
     get tabsItems() {
-        return this.getPrivate('tabsItems');
+        return this.privates.tabsItems;
     }
 
     set tabsItems(tabsItems) {
-        this.setPrivate('tabsItems', tabsItems);
+        this.privates.tabsItems = tabsItems;
 
         this.invalidate();
     }
@@ -164,6 +164,12 @@ class AbstractTabs extends BaseComponent {
 
     get showNavigationButtons() {
         return Boolean(this.tabsItems.length);
+    }
+
+    static get privatesDefinition() {
+        return {
+            tabsItems: createArrayDefinition([])
+        };
     }
 }
 

@@ -2,9 +2,17 @@ import BaseComponent from '../base-component';
 
 import styles from './abstract-list-styles.html';
 
+import {
+    createArrayDefinition
+} from 'tools/definitions';
+
+const DEFAULT_HAS_ICON_GRAPHIC = false;
+const DEFAULT_HAS_SECONDARY_TEXT = false;
+const DEFAULT_TRACK_BY = ({id}) => id;
+
 class AbstractList extends BaseComponent {
     render(compiler, {unsafeHTML, repeat}, {nothing, nothingFn}) {
-        const {hasIconGraphic, hasSecondaryText, selectedIndex, listItems, trackBy} = this;
+        const {hasIconGraphic = DEFAULT_HAS_ICON_GRAPHIC, hasSecondaryText = DEFAULT_HAS_SECONDARY_TEXT, selectedIndex, listItems, trackBy = DEFAULT_TRACK_BY} = this;
         const handleListItemSelect = this.handleListItemSelect.bind(this);
 
         const iconStylesheetMarkup = hasIconGraphic ? compiler`
@@ -74,10 +82,6 @@ class AbstractList extends BaseComponent {
         }
     }
 
-    onCreate() {
-        this.setPrivate('listItems', []);
-    }
-
     static get observedAttributes() {
         return ['selected-index'];
     }
@@ -101,11 +105,11 @@ class AbstractList extends BaseComponent {
     }
 
     get listItems() {
-        return this.getPrivate('listItems');
+        return this.privates.listItems;
     }
 
     set listItems(listItems) {
-        this.setPrivate('listItems', listItems);
+        this.privates.listItems = listItems;
 
         this.invalidate();
     }
@@ -118,6 +122,12 @@ class AbstractList extends BaseComponent {
         }
 
         return selectedIndex;
+    }
+
+    static get privatesDefinition() {
+        return {
+            listItems: createArrayDefinition([])
+        };
     }
 }
 

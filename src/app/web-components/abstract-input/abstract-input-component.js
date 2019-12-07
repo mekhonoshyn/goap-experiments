@@ -1,12 +1,16 @@
 import BaseComponent from '../base-component';
-import defer from 'tools/defer';
 
 import styles from './abstract-input-styles.html';
 
+import {
+    createObjectDefinition,
+    createBooleanDefinition
+} from 'tools/definitions';
+
 class AbstractInput extends BaseComponent {
     render(compiler, {unsafeHTML}) {
-        const {label = '', disabled, required} = this;
-        const {handleInputBlur, handleInputFocus, handleInputInput, handleButtonClick} = this;
+        const {label, disabled, required} = this;
+        const {handleInputBlur, handleInputFocus, handleInputInput, handleButtonClick, handleButtonKeydown, handleButtonBlur, handleButtonFocus} = this;
 
         return compiler`
             <link rel="stylesheet" href="css/mdc.textfield.min.css"/>
@@ -24,8 +28,11 @@ class AbstractInput extends BaseComponent {
                    @input=${handleInputInput}/>
                 <label class="mdc-floating-label">${label}</label>
                 <i class="material-icons mdc-text-field__icon"
-                   tabindex="0"
-                   @click=${handleButtonClick}>cancel</i>
+                   @click=${handleButtonClick}
+                   @keydown=${handleButtonKeydown}
+                   @blur=${handleButtonBlur}
+                   @focus=${handleButtonFocus}
+                   tabindex="0">cancel</i>
                 <bld-line-ripple></bld-line-ripple>
             </div>
             <div class="mdc-text-field-helper-line">
@@ -33,17 +40,6 @@ class AbstractInput extends BaseComponent {
                 <div class="mdc-text-field-character-counter"></div>
             </div>
         `;
-    }
-
-    onCreate() {
-        this.isTouched = false;
-        this.hasInitialValue = false;
-        this.failedConstraint = null;
-        this.setPrivate('rendered', defer());
-    }
-
-    onConnect() {
-        this.getPrivate('rendered').resolve();
     }
 
     onRender() {
@@ -55,13 +51,17 @@ class AbstractInput extends BaseComponent {
         this.counterElement = this.shadowRoot.querySelector('.mdc-text-field-character-counter');
         this.wrapperElement = this.shadowRoot.querySelector('.mdc-text-field');
 
-        if (!this.hasInitialValue) {
+        if (!this.privates.hasInitialValue) {
             this.value = '';
         }
     }
 
+    onUpdate() {
+        this.value = this.getAttribute('value') || '';
+    }
+
     static get observedAttributes() {
-        return ['disabled'];
+        return ['disabled', 'value'];
     }
 
     get disabled() {
@@ -79,7 +79,7 @@ class AbstractInput extends BaseComponent {
     }
 
     handleInputBlur() {
-        this.isTouched = true;
+        this.privates.isTouched = true;
 
         this.updateLabel();
         this.updateWrapper({focused: false});
@@ -103,7 +103,22 @@ class AbstractInput extends BaseComponent {
 
     handleButtonClick() {
         this.value = '';
-        this.isTouched = true;
+        this.privates.isTouched = true;
+    }
+
+    handleButtonKeydown(event) {
+        if (event.key === 'Enter') {
+            this.value = '';
+            this.privates.isTouched = true;
+        }
+    }
+
+    handleButtonBlur() {
+        this.buttonElement.classList.remove('mdc-text-field__icon--focused');
+    }
+
+    handleButtonFocus() {
+        this.buttonElement.classList.add('mdc-text-field__icon--focused');
     }
 
     get value() {
@@ -111,10 +126,10 @@ class AbstractInput extends BaseComponent {
     }
 
     set value(value) {
-        this.hasInitialValue = true;
+        this.privates.hasInitialValue = true;
 
         (async () => {
-            await this.getPrivate('rendered').promise;
+            await this.privates.firstRenderHappen;
 
             this.inputElement.value = value;
 
@@ -130,37 +145,13 @@ class AbstractInput extends BaseComponent {
     validate() {
         const {value} = this;
 
-        this.failedConstraint = this.constraints.find(({test}) => !test(value)) || null;
+        this.privates.failedConstraint = this.constraints.find(({test}) => !test(value)) || null;
 
         this.reportValidity();
     }
 
-    get isTouched() {
-        return this.getPrivate('isTouched');
-    }
-
-    set isTouched(isTouched) {
-        this.setPrivate('isTouched', isTouched);
-    }
-
-    get failedConstraint() {
-        return this.getPrivate('failedConstraint');
-    }
-
-    set failedConstraint(failedConstraint) {
-        this.setPrivate('failedConstraint', failedConstraint);
-    }
-
-    get hasInitialValue() {
-        return this.getPrivate('hasInitialValue');
-    }
-
-    set hasInitialValue(hasInitialValue) {
-        this.setPrivate('hasInitialValue', hasInitialValue);
-    }
-
     reportValidity() {
-        const {isTouched, failedConstraint} = this;
+        const {isTouched, failedConstraint} = this.privates;
         const showInvalidity = Boolean(isTouched && failedConstraint);
         const displayMessage = showInvalidity ? failedConstraint.errorMessage : '';
 
@@ -192,9 +183,11 @@ class AbstractInput extends BaseComponent {
         return Boolean(this.value);
     }
 
-    get renderOptions() {
+    static get privatesDefinition() {
         return {
-            eventContext: this
+            isTouched: createBooleanDefinition(false),
+            failedConstraint: createObjectDefinition(null),
+            hasInitialValue: createBooleanDefinition(false)
         };
     }
 }

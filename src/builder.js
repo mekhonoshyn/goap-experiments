@@ -20,3 +20,4 @@ import 'app/web-components/abstract-dialog/abstract-dialog-component';
 // import 'app/web-components/structure-unit-dialog/structure-unit-dialog-component';
 import 'app/web-components/abstract-input/abstract-input-component';
 import 'app/web-components/line-ripple/line-ripple-component';
+import 'app/web-components/abstract-select/abstract-select-component';

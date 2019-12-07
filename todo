@@ -1,0 +1,27 @@
+ - rename reportValidity functions
+ + apply {eventContext: this} rendering option globally
+ - remove builder.scss
+ - move privatesMap to separate file
+ - rename data-index to meta-index || use dataset property
+ - cleanup classes flex, layout-column, layout-row
+ - abstract-tabs: update navigation state on window resize
+ - unify "rendered" tracking
+ - implement bigger spacers
+ - move line ripple to separate component
+ - do not expose shadowRoot
+ - implement "persistent" hint element for abstract input
+ - implement "persistent" hint element for abstract select
+ - use transitionend for abstract-dialog opening/closing
+ - make abstract input label optional (.mdc-text-field--no-label)
+ - https://dev.to/emmawedekind/creating-a-custom-accessible-drop-down-3gmo
+
+ - autoscroll into view for selected items in lists and tabs
+ - vertical selection indicator for abstract-list
+ - breadcrumbs component
+ - possibility to make any structural unit temporary root
+ - customize scrollbar
+ - implement scrollable element to track scrollend event
+ - find a way to apply localization
+ - change color for focused button in invalid abstract-input
+
+ - close abstract dialog on Escape keydown

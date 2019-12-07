@@ -2,16 +2,25 @@ import {html, render, nothing} from 'lit-html';
 import {repeat} from 'lit-html/directives/repeat';
 import {unsafeHTML} from 'lit-html/directives/unsafe-html';
 import sleep from 'tools/sleep';
-
-const privatesMap = new WeakMap();
+import {
+    createBooleanDefinition,
+    createDeferredDefinition
+} from 'tools/definitions';
 
 export default class extends HTMLElement {
     constructor() {
         super();
 
-        createPrivates(this);
+        const extendedPrivatesDefinition = Object.assign({}, this.constructor.privatesDefinition, {
+            awaitingForRender: createBooleanDefinition(false),
+            firstRenderHappen: createDeferredDefinition(),
+            attributesBound: createDeferredDefinition(),
+            propertiesBound: createDeferredDefinition()
+        });
 
-        this.setPrivate('awaitingForRender', false);
+        Object.defineProperty(this, 'privates', {
+            value: Object.defineProperties({}, extendedPrivatesDefinition)
+        });
 
         if (this.constructor.hasShadowDOM) {
             this.attachShadow({mode: 'open'});
@@ -21,49 +30,49 @@ export default class extends HTMLElement {
     }
 
     async connectedCallback() {
+        this.privates.propertiesBound = true;
+
         await this.invalidate();
 
         this.onConnect();
     }
 
-    attributeChangedCallback() {
-        this.onUpdate();
+    async attributeChangedCallback() {
+        this.privates.attributesBound = true;
 
-        this.invalidate();
+        await this.onUpdate();
+
+        await this.invalidate();
     }
 
     disconnectedCallback() {
         this.onDisconnect();
-
-        deletePrivates(this);
     }
 
     onCreate() {}
 
     onConnect() {}
 
-    onUpdate() {}
+    async onUpdate() {}
 
     onDisconnect() {}
 
     async invalidate() {
-        if (this.getPrivate('awaitingForRender')) {
+        if (this.privates.awaitingForRender) {
             return;
         }
 
-        this.setPrivate('awaitingForRender', true);
+        this.privates.awaitingForRender = true;
 
         await sleep();
 
-        if (!hasPrivates(this)) {
-            return;
-        }
-
-        this.setPrivate('awaitingForRender', false);
+        this.privates.awaitingForRender = false;
 
         if (this.constructor.hasShadowDOM) {
-            render(this.render(html, {repeat, unsafeHTML}, {nothing, nothingFn}), this.shadowRoot, this.renderOptions);
+            render(this.render(html, {repeat, unsafeHTML}, {nothing, nothingFn}), this.shadowRoot, this.constructor.renderOptions);
         }
+
+        this.privates.firstRenderHappen = true;
 
         this.onRender();
     }
@@ -74,14 +83,6 @@ export default class extends HTMLElement {
 
     onRender() {}
 
-    getPrivate(key) {
-        return readPrivates(this)[key];
-    }
-
-    setPrivate(key, value) {
-        readPrivates(this)[key] = value;
-    }
-
     static get observedAttributes() {
         return [];
     }
@@ -90,25 +91,15 @@ export default class extends HTMLElement {
         return true;
     }
 
-    get renderOptions() {
+    static get privatesDefinition() {
         return {};
     }
-}
 
-function readPrivates(context) {
-    return privatesMap.get(context);
-}
-
-function createPrivates(context) {
-    privatesMap.set(context, {});
-}
-
-function deletePrivates(context) {
-    privatesMap.delete(context);
-}
-
-function hasPrivates(context) {
-    return privatesMap.has(context);
+    static get renderOptions() {
+        return {
+            eventContext: this
+        };
+    }
 }
 
 function nothingFn() {

@@ -23,6 +23,7 @@
     "@material/button": "^2.3.0",
     "@material/dialog": "^3.1.0",
     "@material/list": "^3.0.0",
+    "@material/select": "^3.1.0",
     "@material/tab-bar": "^3.0.0",
     "@material/textfield": "^3.1.0",
     "@uirouter/angularjs": "^1.0.15",
