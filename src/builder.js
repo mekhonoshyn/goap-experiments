@@ -17,7 +17,7 @@ import 'app/web-components/structure-unit/structure-unit-component';
 import 'app/web-components/tabs-view/tabs-view-component';
 import 'app/web-components/abstract-tabs/abstract-tabs-component';
 import 'app/web-components/abstract-dialog/abstract-dialog-component';
-// import 'app/web-components/structure-unit-dialog/structure-unit-dialog-component';
+import 'app/web-components/structure-unit-dialog/structure-unit-dialog-component';
 import 'app/web-components/abstract-input/abstract-input-component';
 import 'app/web-components/line-ripple/line-ripple-component';
 import 'app/web-components/abstract-select/abstract-select-component';

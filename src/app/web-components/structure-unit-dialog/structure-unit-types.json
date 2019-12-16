@@ -1,0 +1,26 @@
+[
+    {
+        "id": "list-view",
+        "primaryText": "#{i18n.STRUCTURE_UNIT_TYPE__LIST_VIEW}#"
+    },
+    {
+        "id": "tabs-view",
+        "primaryText": "#{i18n.STRUCTURE_UNIT_TYPE__TABS_VIEW}#"
+    },
+    {
+        "id": "goal-view",
+        "primaryText": "#{i18n.STRUCTURE_UNIT_TYPE__GOAL_VIEW}#"
+    },
+    {
+        "id": "resource-view",
+        "primaryText": "#{i18n.STRUCTURE_UNIT_TYPE__RESOURCE_VIEW}#"
+    },
+    {
+        "id": "tool-view",
+        "primaryText": "#{i18n.STRUCTURE_UNIT_TYPE__TOOL_VIEW}#"
+    },
+    {
+        "id": "process-view",
+        "primaryText": "#{i18n.STRUCTURE_UNIT_TYPE__PROCESS_VIEW}#"
+    }
+]

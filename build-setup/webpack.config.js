@@ -54,6 +54,18 @@ module.exports = {
     module: {
         rules: [{
             test: [
+                /src\/.*\.json$/
+            ],
+            use: [{
+                loader: 'json-loader'
+            }, {
+                loader: i18nReplacerPath,
+                options: {
+                    preset: 'json'
+                }
+            }]
+        }, {
+            test: [
                 /src\/.*\.js$/
             ],
             use: [{

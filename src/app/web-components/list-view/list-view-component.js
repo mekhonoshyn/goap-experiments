@@ -13,9 +13,11 @@ class ListView extends BaseComponent {
         }
 
         const {isEditable, listItems, selectedItem, selectedIndex} = this;
+        const {handleSelect} = this;
         const openCreateDialog = this.openCreateDialog.bind(this);
+        const openCreateDialogNew = this.openCreateDialogNew.bind(this);
         const openEditDialog = this.openEditDialog.bind(this);
-        const handleSelect = this.handleSelect.bind(this);
+        const openEditDialogNew = this.openEditDialogNew.bind(this);
 
         return compiler`
             ${unsafeHTML(styles)}
@@ -27,6 +29,8 @@ class ListView extends BaseComponent {
                 <bld-vertical-divider></bld-vertical-divider>
                 <bld-vertical-spacer></bld-vertical-spacer>
                 <bld-floating-action-button @click=${openCreateDialog}>add</bld-floating-action-button>
+                <bld-vertical-spacer></bld-vertical-spacer>
+                <bld-floating-action-button @click=${openCreateDialogNew}>add</bld-floating-action-button>
             </div>
             <bld-horizontal-divider></bld-horizontal-divider>
             ${getAbstractListMarkup()}
@@ -37,12 +41,14 @@ class ListView extends BaseComponent {
             return isEditable ? compiler`
                 <bld-vertical-spacer></bld-vertical-spacer>
                 <bld-floating-action-button @click=${openEditDialog}>edit</bld-floating-action-button>
+                <bld-vertical-spacer></bld-vertical-spacer>
+                <bld-floating-action-button @click=${openEditDialogNew}>edit</bld-floating-action-button>
             ` : nothing;
         }
 
         function getAbstractListMarkup() {
             return listItems.length ? compiler`
-                <bld-abstract-list selected-index=${selectedIndex} .listItems=${listItems} .trackBy=${({id}) => id} .hasIconGraphic=${true} .hasSecondaryText=${true} @select=${({detail}) => handleSelect(detail)}></bld-abstract-list>
+                <bld-abstract-list selected-index=${selectedIndex} .listItems=${listItems} .hasIconGraphic=${true} .hasSecondaryText=${true} @select=${handleSelect}></bld-abstract-list>
             ` : nothing;
         }
 
@@ -78,13 +84,23 @@ class ListView extends BaseComponent {
         structureUnitsService.openDialog(Object.assign({}, this.instance));
     }
 
+    openEditDialogNew() {
+        structureUnitsService.openDialogNew(this.instance);
+    }
+
     openCreateDialog() {
         structureUnitsService.openDialog({
             parentId: this.instance.id
         });
     }
 
-    handleSelect(selectedIndex) {
+    openCreateDialogNew() {
+        structureUnitsService.openDialogNew({
+            parentId: this.instance.id
+        });
+    }
+
+    handleSelect({detail: selectedIndex}) {
         const selectedItem = this.listItems[selectedIndex];
 
         structureUnitsActions.selectStructureUnit(selectedItem.id);

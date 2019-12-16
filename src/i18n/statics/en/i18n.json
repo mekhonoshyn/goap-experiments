@@ -1,0 +1,18 @@
+{
+    "STRUCTURE_UNIT_TYPE__LIST_VIEW": "List View",
+    "STRUCTURE_UNIT_TYPE__TABS_VIEW": "Tabs View",
+    "STRUCTURE_UNIT_TYPE__GOAL_VIEW": "Goal View",
+    "STRUCTURE_UNIT_TYPE__RESOURCE_VIEW": "Resource View",
+    "STRUCTURE_UNIT_TYPE__TOOL_VIEW": "Tool View",
+    "STRUCTURE_UNIT_TYPE__PROCESS_VIEW": "Process View",
+    "INPUT_LABEL__STRUCTURE_UNIT_TITLE": "Title",
+    "INPUT_LABEL__STRUCTURE_UNIT_DESCRIPTION": "Description",
+    "SELECT_LABEL__STRUCTURE_UNIT_TYPE": "Type",
+    "BUTTON_LABEL__SUBMIT": "Submit",
+    "BUTTON_LABEL__CANCEL": "Cancel",
+    "STRUCTURE_UNIT_ERROR__NOT_UNIQUE": "Structure unit is not unique",
+    "GENERAL_ERROR__FIELD_IS_REQUIRED": "Field is required",
+    "GENERAL_ERROR__LENGTH_NOT_MORE_THAN": "Length should not be more than ${maxLength} chars",
+    "DIALOG_TITLE__EDIT_STRUCTURE_UNIT": "Edit Structure Unit",
+    "DIALOG_TITLE__CREATE_STRUCTURE_UNIT": "Create Structure Unit"
+}

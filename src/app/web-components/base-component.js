@@ -69,7 +69,7 @@ export default class extends HTMLElement {
         this.privates.awaitingForRender = false;
 
         if (this.constructor.hasShadowDOM) {
-            render(this.render(html, {repeat, unsafeHTML}, {nothing, nothingFn}), this.shadowRoot, this.constructor.renderOptions);
+            render(this.render(html, {repeat, unsafeHTML}, {nothing, nothingFn}), this.shadowRoot, this.renderOptions);
         }
 
         this.privates.firstRenderHappen = true;
@@ -95,7 +95,7 @@ export default class extends HTMLElement {
         return {};
     }
 
-    static get renderOptions() {
+    get renderOptions() {
         return {
             eventContext: this
         };

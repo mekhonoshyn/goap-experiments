@@ -13,6 +13,11 @@ import {
     buildLanguage,
     manifestName
 } from '../build-config';
+import {
+    genericHandler,
+
+    getStaticValue
+} from 'i18n-replacer/dist/helper';
 
 gulp.task('initialize', initialize);
 
@@ -26,7 +31,28 @@ function initialize(done) {
         customBuild: customBuildName,
         staticsPath: `${srcPath}/i18n/statics/${buildLanguage}/*.json`,
         dynamicsPath: `${srcPath}/i18n/dynamics/${buildLanguage}/*.json`,
-        reportDirectory: 'build-reports'
+        reportDirectory: 'build-reports',
+        customPresets: {
+            json: [
+                (() => {
+                    const type = 'static, server-side localization /* #{i18n-dict.I18N_KEY}# */';
+                    const pattern = /#{([\w.-]+)}#/g;
+                    const handler = (match, key) => genericHandler(type, match, getStaticValue(key));
+
+                    return [pattern, handler];
+                })()
+            ],
+            js: [
+                (() => {
+                    const type = 'static, server-side localization /* #{i18n-dict.I18N_KEY}# */';
+                    const pattern = /#{([\w.-]+)}#/g;
+                    const handler = (match, key) => genericHandler(type, match, getStaticValue(key));
+
+                    return [pattern, handler];
+                })()
+            ],
+            html: []
+        }
     });
 
     done();

@@ -3,14 +3,29 @@ import BaseComponent from '../base-component';
 import styles from './abstract-input-styles.html';
 
 import {
+    createArrayDefinition,
+    createStringDefinition,
     createObjectDefinition,
+    createNumberDefinition,
     createBooleanDefinition
 } from 'tools/definitions';
 
+/**
+ * Properties:
+ *   error           RO
+ *   disabled        WO
+ *   value           RW
+ *   constraints     WO
+ *   label           WO
+ */
+
 class AbstractInput extends BaseComponent {
-    render(compiler, {unsafeHTML}) {
-        const {label, disabled, required} = this;
+    render(compiler, {unsafeHTML}, {nothing}) {
+        const {value} = this;
+        const {disabled, label, inputFocused, buttonFocused, isTouched, failedConstraint, required, maxLength} = this.privates;
         const {handleInputBlur, handleInputFocus, handleInputInput, handleButtonClick, handleButtonKeydown, handleButtonBlur, handleButtonFocus} = this;
+        const showInvalidity = isTouched && failedConstraint;
+        const displayMessage = showInvalidity ? failedConstraint.errorMessage : '';
 
         return compiler`
             <link rel="stylesheet" href="css/mdc.textfield.min.css"/>
@@ -19,86 +34,81 @@ class AbstractInput extends BaseComponent {
             
             ${unsafeHTML(styles)}
 
-            <div class="mdc-text-field mdc-text-field--with-trailing-icon ${disabled ? 'mdc-text-field--disabled' : ''}">
-                <input class="mdc-text-field__input"
-                   ?disabled=${disabled}
-                   ?required=${required}
-                   @blur=${handleInputBlur}
-                   @focus=${handleInputFocus}
-                   @input=${handleInputInput}/>
-                <label class="mdc-floating-label">${label}</label>
-                <i class="material-icons mdc-text-field__icon"
+            <div class="mdc-text-field__container layout-column">
+                <div class="mdc-text-field mdc-text-field--with-trailing-icon ${disabled ? 'mdc-text-field--disabled' : ''} ${inputFocused ? 'mdc-text-field--focused' : ''} ${showInvalidity ? 'mdc-text-field--invalid' : ''}">
+                    <input class="mdc-text-field__input"
+                       ?disabled=${disabled}
+                       ?required=${required}
+                       @blur=${handleInputBlur}
+                       @focus=${handleInputFocus}
+                       @input=${handleInputInput}/>
+                    <label class="mdc-floating-label ${value || inputFocused ? 'mdc-floating-label--float-above' : ''}">${label}</label>
+                    ${disabled || !value ? nothing : getButtonMarkup()}
+                    <bld-line-ripple></bld-line-ripple>
+                </div>
+                <div class="mdc-text-field-helper-line">
+                    <div class="mdc-text-field-helper-text ${showInvalidity ? 'mdc-text-field-helper-text--validation-msg' : ''}"
+                       title=${displayMessage}>${displayMessage}</div>
+                    <div class="mdc-text-field-character-counter">${maxLength ? `${value.length} / ${maxLength}` : value.length}</div>
+                </div>
+            </div>
+        `;
+
+        function getButtonMarkup() {
+            return compiler`
+                <i class="material-icons mdc-text-field__icon ${buttonFocused ? 'mdc-text-field__icon--focused' : ''}"
                    @click=${handleButtonClick}
                    @keydown=${handleButtonKeydown}
                    @blur=${handleButtonBlur}
                    @focus=${handleButtonFocus}
                    tabindex="0">cancel</i>
-                <bld-line-ripple></bld-line-ripple>
-            </div>
-            <div class="mdc-text-field-helper-line">
-                <div class="mdc-text-field-helper-text"></div>
-                <div class="mdc-text-field-character-counter"></div>
-            </div>
-        `;
+            `;
+        }
     }
 
     onRender() {
         this.inputElement = this.shadowRoot.querySelector('.mdc-text-field__input');
-        this.labelElement = this.shadowRoot.querySelector('.mdc-floating-label');
-        this.helperElement = this.shadowRoot.querySelector('.mdc-text-field-helper-text');
-        this.buttonElement = this.shadowRoot.querySelector('.mdc-text-field__icon');
         this.rippleElement = this.shadowRoot.querySelector('bld-line-ripple');
-        this.counterElement = this.shadowRoot.querySelector('.mdc-text-field-character-counter');
-        this.wrapperElement = this.shadowRoot.querySelector('.mdc-text-field');
-
-        if (!this.privates.hasInitialValue) {
-            this.value = '';
-        }
-    }
-
-    onUpdate() {
-        this.value = this.getAttribute('value') || '';
-    }
-
-    static get observedAttributes() {
-        return ['disabled', 'value'];
-    }
-
-    get disabled() {
-        return this.hasAttribute('disabled');
-    }
-
-    get required() {
-        return Boolean(this.constraints.find(({name}) => name === 'required'));
-    }
-
-    get maxLength() {
-        const constraint = this.constraints.find(({name}) => name === 'maxlength');
-
-        return constraint && constraint.params[0];
     }
 
     handleInputBlur() {
-        this.privates.isTouched = true;
-
-        this.updateLabel();
-        this.updateWrapper({focused: false});
-        this.reportValidity();
-
-        this.rippleElement.deactivate();
+        this.blur();
     }
 
     handleInputFocus() {
+        this.focus();
+    }
+
+    focus() {
+        if (this.privates.inputFocused) {
+            return;
+        }
+
+        this.privates.inputFocused = true;
+
         this.rippleElement.activate();
 
-        this.updateLabel({putAbove: true});
-        this.updateWrapper({focused: true});
+        this.invalidate();
+    }
+
+    blur() {
+        if (!this.privates.inputFocused) {
+            return;
+        }
+
+        this.privates.inputFocused = false;
+        this.privates.isTouched = true;
+
+        this.rippleElement.deactivate();
+
+        this.invalidate();
     }
 
     handleInputInput() {
+        this.privates.isTouched = true;
+
         this.validate();
-        this.updateButton();
-        this.updateCounter();
+        this.invalidate();
     }
 
     handleButtonClick() {
@@ -114,80 +124,87 @@ class AbstractInput extends BaseComponent {
     }
 
     handleButtonBlur() {
-        this.buttonElement.classList.remove('mdc-text-field__icon--focused');
+        this.privates.buttonFocused = false;
+
+        this.invalidate();
     }
 
     handleButtonFocus() {
-        this.buttonElement.classList.add('mdc-text-field__icon--focused');
+        this.privates.buttonFocused = true;
+
+        this.invalidate();
+    }
+
+    validate() {
+        const {value} = this;
+        const {constraints} = this.privates;
+
+        this.privates.failedConstraint = constraints.find(({test}) => !test(value)) || null;
     }
 
     get value() {
-        return this.inputElement.value;
+        return this.inputElement ? this.inputElement.value : '';
     }
 
     set value(value) {
-        this.privates.hasInitialValue = true;
-
         (async () => {
             await this.privates.firstRenderHappen;
 
             this.inputElement.value = value;
 
             this.validate();
-            this.updateLabel();
-            this.updateButton();
-            this.updateCounter();
+            this.invalidate();
 
             this.dispatchEvent(new Event('input'));
         })();
     }
 
-    validate() {
-        const {value} = this;
+    set constraints(constraints) {
+        this.privates.constraints = constraints;
 
-        this.privates.failedConstraint = this.constraints.find(({test}) => !test(value)) || null;
+        const requiredConstraint = constraints.find(({name}) => name === 'required');
+        const maxLengthConstraint = constraints.find(({name}) => name === 'maxlength');
 
-        this.reportValidity();
+        this.privates.required = Boolean(requiredConstraint);
+        this.privates.maxLength = maxLengthConstraint && maxLengthConstraint.params[0] || 0;
+
+        this.validate();
+        this.invalidate();
     }
 
-    reportValidity() {
-        const {isTouched, failedConstraint} = this.privates;
-        const showInvalidity = Boolean(isTouched && failedConstraint);
-        const displayMessage = showInvalidity ? failedConstraint.errorMessage : '';
+    set disabled(disabled) {
+        this.privates.disabled = disabled;
 
-        this.helperElement.textContent = displayMessage;
-        this.helperElement.setAttribute('title', displayMessage);
-        this.helperElement.classList.toggle('mdc-text-field-helper-text--validation-msg', showInvalidity);
-        this.wrapperElement.classList.toggle('mdc-text-field--invalid', showInvalidity);
+        if (disabled) {
+            this.blur();
+        }
+
+        this.invalidate();
     }
 
-    updateLabel({putAbove = this.hasValue} = {}) {
-        this.labelElement.classList.toggle('mdc-floating-label--float-above', putAbove);
+    set label(label) {
+        this.privates.label = label;
+
+        this.invalidate();
     }
 
-    updateButton() {
-        this.buttonElement.style.display = this.hasValue ? '' : 'none';
-    }
+    get error() {
+        const {failedConstraint} = this.privates;
 
-    updateCounter() {
-        const {maxLength} = this;
-
-        this.counterElement.textContent = maxLength ? `${this.value.length} / ${maxLength}` : this.value.length;
-    }
-
-    updateWrapper({focused}) {
-        this.wrapperElement.classList.toggle('mdc-text-field--focused', focused);
-    }
-
-    get hasValue() {
-        return Boolean(this.value);
+        return failedConstraint && failedConstraint.errorMessage;
     }
 
     static get privatesDefinition() {
         return {
             isTouched: createBooleanDefinition(false),
             failedConstraint: createObjectDefinition(null),
-            hasInitialValue: createBooleanDefinition(false)
+            inputFocused: createBooleanDefinition(false),
+            buttonFocused: createBooleanDefinition(false),
+            required: createBooleanDefinition(false),
+            maxLength: createNumberDefinition(0),
+            constraints: createArrayDefinition([]),
+            disabled: createBooleanDefinition(false),
+            label: createStringDefinition('')
         };
     }
 }
