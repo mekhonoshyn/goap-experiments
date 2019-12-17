@@ -7,7 +7,7 @@
     "eslint": "./build-setup/scripts/eslint",
     "eslint-wip": "./build-setup/scripts/eslint --wip",
     "eslint-commit": "./build-setup/scripts/eslint --commit",
-    "update": "npm update flex-directive-replacer gulp-purge-source-maps html-source-include i18n-replacer template-resolver-loader"
+    "update": "npm update gulp-purge-source-maps i18n-replacer template-resolver-loader"
   },
   "repository": {
     "type": "git",
@@ -26,17 +26,9 @@
     "@material/select": "^3.2.0",
     "@material/tab-bar": "^3.2.0",
     "@material/textfield": "^3.2.0",
-    "@uirouter/angularjs": "^1.0.23",
-    "angular": "^1.7.9",
-    "angular-animate": "^1.7.9",
-    "angular-aria": "^1.7.9",
-    "angular-material": "^1.1.20",
-    "angular-messages": "^1.7.9",
-    "angular-sanitize": "^1.7.9",
     "babel-runtime": "^6.26.0",
     "flux": "^3.1.3",
-    "lit-html": "^1.1.2",
-    "ngimport": "^1.0.0"
+    "lit-html": "^1.1.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -57,14 +49,11 @@
     "eslint-plugin-angular": "^3.3.0",
     "exports-loader": "^0.7.0",
     "expose-loader": "^0.7.3",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "flex-directive-replacer": "git+https://github.com/mekhonoshyn/flex-directive-replacer.git",
     "gulp": "^3.9.1",
     "gulp-compile-handlebars": "^0.6.1",
     "gulp-purge-source-maps": "git+https://github.com/mekhonoshyn/gulp-purge-source-maps.git",
     "gulp-rename": "^1.2.2",
     "html-loader": "^0.5.5",
-    "html-source-include": "git+https://github.com/mekhonoshyn/html-source-include.git",
     "i18n-replacer": "git+https://github.com/mekhonoshyn/i18n-replacer.git",
     "json-loader": "^0.5.7",
     "node-sass": "^4.13.0",
@@ -75,6 +64,7 @@
     "style-loader": "^0.20.3",
     "template-resolver-loader": "git+https://github.com/mekhonoshyn/template-resolver-loader.git",
     "webpack": "^3.11.0",
+    "webpack-bundle-analyzer": "^3.6.0",
     "webpack-manifest-plugin": "^2.2.0",
     "yargs": "^11.1.1"
   }

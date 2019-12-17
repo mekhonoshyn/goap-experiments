@@ -44,7 +44,7 @@ class TabsView extends BaseComponent {
 
         function getAbstractTabsMarkup() {
             return tabsItems.length ? compiler`
-                <bld-abstract-tabs selected-index=${selectedIndex} .tabsItems=${tabsItems} .trackBy=${({id}) => id} .hasIconGraphic=${false} @select=${({detail}) => handleSelect(detail)}></bld-abstract-tabs>
+                <awc-abstract-tabs selected-index=${selectedIndex} .tabsItems=${tabsItems} .trackBy=${({id}) => id} .hasIconGraphic=${false} @select=${({detail}) => handleSelect(detail)}></awc-abstract-tabs>
                 <bld-vertical-divider></bld-vertical-divider>
             ` : nothing;
         }

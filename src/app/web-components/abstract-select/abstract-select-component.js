@@ -66,7 +66,7 @@ class AbstractSelect extends BaseComponent {
                     <p class="mdc-select-helper-text ${showInvalidity ? 'mdc-select-helper-text--validation-msg' : ''}"
                        title=${displayMessage}>${displayMessage}</p>
                     <div class="mdc-select__menu mdc-menu mdc-menu-surface ${activated ? 'mdc-menu-surface--open' : ''}">
-                        <bld-abstract-list selected-index=${selectedIndex} .listItems=${listItems} @select=${handleSelectChange}></bld-abstract-list>
+                        <awc-abstract-list selected-index=${selectedIndex} .listItems=${listItems} @select=${handleSelectChange}></awc-abstract-list>
                     </div>
                 </div>
             `;
@@ -88,7 +88,7 @@ class AbstractSelect extends BaseComponent {
 
     onRender() {
         this.menuElement = this.shadowRoot.querySelector('.mdc-select__menu');
-        this.listElement = this.shadowRoot.querySelector('bld-abstract-list');
+        this.listElement = this.shadowRoot.querySelector('awc-abstract-list');
         this.rippleElement = this.shadowRoot.querySelector('bld-line-ripple');
         this.wrapperElement = this.shadowRoot.querySelector('.mdc-select');
     }
@@ -337,4 +337,4 @@ class AbstractSelect extends BaseComponent {
     }
 }
 
-customElements.define('bld-abstract-select', AbstractSelect);
+customElements.define('awc-abstract-select', AbstractSelect);

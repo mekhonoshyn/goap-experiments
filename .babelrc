@@ -6,8 +6,7 @@
   "plugins": [
     "transform-custom-element-classes",
     "transform-runtime",
-    "transform-es5-property-mutators",
-    "angularjs-annotate"
+    "transform-es5-property-mutators"
   ],
   "comments": true
 }

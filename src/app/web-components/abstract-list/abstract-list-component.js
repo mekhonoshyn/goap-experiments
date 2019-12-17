@@ -131,4 +131,4 @@ class AbstractList extends BaseComponent {
     }
 }
 
-customElements.define('bld-abstract-list', AbstractList);
+customElements.define('awc-abstract-list', AbstractList);

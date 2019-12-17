@@ -173,4 +173,4 @@ class AbstractTabs extends BaseComponent {
     }
 }
 
-customElements.define('bld-abstract-tabs', AbstractTabs);
+customElements.define('awc-abstract-tabs', AbstractTabs);

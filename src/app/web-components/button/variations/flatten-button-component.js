@@ -2,8 +2,6 @@ import BaseComponent from '../../base-component';
 
 import styles from './flatten-button-styles.html';
 
-const ACTION_TRIGGERING_CODES = ['Space', 'Enter', 'NumpadEnter'];
-
 const DEFAULT_ROUNDING = '4px';
 
 export default class extends BaseComponent {
@@ -107,7 +105,7 @@ function clickEventHandler(element, event) {
 }
 
 function keyDownEventHandler(element, event) {
-    if (ACTION_TRIGGERING_CODES.includes(event.code)) {
+    if (['Enter'].includes(event.key) || ['Space'].includes(event.code)) {
         preventActionIfDisabled(element, event);
     }
 }

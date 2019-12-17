@@ -1,161 +1,100 @@
 import sqlWorker from 'db/sql-worker';
 import sqlBuilder from 'db/sql-builder';
 import sqlService from 'db/sql-service';
-import iconsSvgLibrary from 'svg/icons.svg';
 
-angular.module('builder', [
-    'ui.router',
-    'ngMaterial',
-    'ngSanitize',
-    'ngMessages',
-    'bcherny/ngimport'
-])
-    .config(configSecurityAndPerformance)
-    .config(mdSVGConfig)
-    .config(themingConfig)
-    .run(runApplication);
+(async () => {
+    // await sqlService.initialize();
 
-angular.element(document).ready(() => {
-    angular.bootstrap(document, ['builder'], {strictDi: true});
-});
+    await sqlService.connect();
 
-/* @ngInject */
-function mdSVGConfig(
-    $mdIconProvider
-) {
-    const ICON_SIZE = 1024;
+    await sqlWorker.execute(`
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Goals", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Resources", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Tools", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(5, "Furnace", "allows to _BAKE_ or _MELT_ stuff", "${sqlBuilder.fromJSON({type: 'tool-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Processes", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(7, "to Heat Furnace", "changes the Furnace state to _HOT_", "${sqlBuilder.fromJSON({type: 'process-view'})}");
+    `);
 
-    $mdIconProvider
-        .iconSet('builder', 'svg/icons.svg', ICON_SIZE);
-}
+    await sqlWorker.execute(`
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Goals New", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
+    `);
 
-/* @ngInject */
-function themingConfig(
-    $mdThemingProvider
-) {
-    $mdThemingProvider.disableTheming(true);
-}
+    await sqlWorker.execute(`
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "some description", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "some loooooooooooooooooooooooooooong description", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+    `);
 
-/* @ngInject */
-function configSecurityAndPerformance(
-    $compileProvider,
-    $mdInkRippleProvider
-) {
-    const CHANGES_TTL = 5;
+    await sqlWorker.execute(`
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "some description", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "some loooooooooooooooooooooooooooong description", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+        INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
+    `);
 
-    $compileProvider
-        // .debugInfoEnabled(false)
-        .commentDirectivesEnabled(false)
-        .cssClassDirectivesEnabled(false);
+    await sqlWorker.execute(`
+        ${[
+            'tabs-view',
+            'list-view',
+            'goal-view',
+            'resource-view',
+            'tool-view',
+            'process-view'
+        ].map((type) => `
+            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "$${type}$", "#${type}#", "${sqlBuilder.fromJSON({type})}");
+        `).join('')}
+    `);
 
-    $compileProvider.onChangesTtl(CHANGES_TTL);
+    await sqlWorker.execute(`
+        ${[
+            'tabs-view',
+            'list-view',
+            'goal-view',
+            'resource-view',
+            'tool-view',
+            'process-view'
+        ].map((type) => `
+            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "$${type}$", "#${type}#", "${sqlBuilder.fromJSON({type})}");
+        `).join('')}
+    `);
 
-    $mdInkRippleProvider.disableInkRipple();
-}
+    await sqlWorker.execute(`
+        ${[
+            'tabs-view',
+            'list-view',
+            'goal-view',
+            'resource-view',
+            'tool-view',
+            'process-view'
+        ].map((type) => `INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "$${type}$", "#${type}#", "${sqlBuilder.fromJSON({type})}");`).join('')}
+    `);
 
-/* @ngInject */
-function runApplication(
-    $animate,
-    $templateCache
-) {
-    $animate.enabled(false);
+    await sqlWorker.execute(new Array(20).fill(null).map((value, index) => `INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(44, "get Baked Bread ${index}", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");`).join(''));
 
-    $templateCache.put('svg/icons.svg', iconsSvgLibrary);
+    await sqlWorker.execute(new Array(20).fill(null).map((value, index) => `INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(45, "get Baked Bread ${index}", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");`).join(''));
 
-    (async () => {
-        // await sqlService.initialize();
-
-        await sqlService.connect();
-
-        await sqlWorker.execute(`
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Goals", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Resources", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Tools", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(5, "Furnace", "allows to _BAKE_ or _MELT_ stuff", "${sqlBuilder.fromJSON({type: 'tool-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Processes", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(7, "to Heat Furnace", "changes the Furnace state to _HOT_", "${sqlBuilder.fromJSON({type: 'process-view'})}");
-        `);
-
-        await sqlWorker.execute(`
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "Goals New", "", "${sqlBuilder.fromJSON({type: 'list-view'})}");
-        `);
-
-        await sqlWorker.execute(`
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "some description", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "some loooooooooooooooooooooooooooong description", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-        `);
-
-        await sqlWorker.execute(`
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "some description", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "some loooooooooooooooooooooooooooong description", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-            INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "get Baked Bread", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");
-        `);
-
-        await sqlWorker.execute(`
-            ${[
-                'tabs-view',
-                'list-view',
-                'goal-view',
-                'resource-view',
-                'tool-view',
-                'process-view'
-            ].map((type) => `
-                INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(2, "$${type}$", "#${type}#", "${sqlBuilder.fromJSON({type})}");
-            `).join('')}
-        `);
-
-        await sqlWorker.execute(`
-            ${[
-                'tabs-view',
-                'list-view',
-                'goal-view',
-                'resource-view',
-                'tool-view',
-                'process-view'
-            ].map((type) => `
-                INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(9, "$${type}$", "#${type}#", "${sqlBuilder.fromJSON({type})}");
-            `).join('')}
-        `);
-
-        await sqlWorker.execute(`
-            ${[
-                'tabs-view',
-                'list-view',
-                'goal-view',
-                'resource-view',
-                'tool-view',
-                'process-view'
-            ].map((type) => `INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(1, "$${type}$", "#${type}#", "${sqlBuilder.fromJSON({type})}");`).join('')}
-        `);
-
-        await sqlWorker.execute(new Array(20).fill(null).map((value, index) => `INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(44, "get Baked Bread ${index}", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");`).join(''));
-
-        await sqlWorker.execute(new Array(20).fill(null).map((value, index) => `INSERT INTO T_STRUCTURE_UNITS(parentId, title, description, view) VALUES(45, "get Baked Bread ${index}", "", "${sqlBuilder.fromJSON({type: 'goal-view'})}");`).join(''));
-
-        require('app/actions/structure-units-actions').default.fetchStructureUnits();
-    })();
-}
+    require('app/actions/structure-units-actions').default.fetchStructureUnits();
+})();

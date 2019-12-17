@@ -4,8 +4,6 @@ import path from 'path';
 import rename from 'gulp-rename';
 import compileHandlebars from 'gulp-compile-handlebars';
 import {gulpPluginPath as i18nReplacerPath} from 'i18n-replacer';
-import {gulpPluginPath as htmlSourceIncludePath} from 'html-source-include';
-import {gulpPluginPath as flexDirectiveReplacerPath} from 'flex-directive-replacer';
 import {
     srcPath,
     distPath,
@@ -13,8 +11,6 @@ import {
 } from '../build-config';
 
 const i18nReplacer = require(i18nReplacerPath).default;
-const htmlSourceInclude = require(htmlSourceIncludePath).default;
-const flexDirectiveReplacer = require(flexDirectiveReplacerPath).default;
 
 gulp.task('index', indexCompile);
 
@@ -27,8 +23,6 @@ function indexCompile(done) {
         return gulp
             .src(path.join(srcPath, 'index.hbs'))
             .pipe(compileHandlebars(manifestData, handlebarsOptions()))
-            .pipe(htmlSourceInclude())
-            .pipe(flexDirectiveReplacer())
             .pipe(i18nReplacer({preset: 'html'}))
             .pipe(rename('index.html'))
             .pipe(gulp.dest(distPath))

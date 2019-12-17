@@ -2,34 +2,23 @@ import path from 'path';
 import webpack from 'webpack';
 import entryPoints from './entry-points';
 import ManifestPlugin from 'webpack-manifest-plugin';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import {webpackLoaderPath as i18nReplacerPath} from 'i18n-replacer';
-import {webpackLoaderPath as htmlSourceIncludePath} from 'html-source-include';
-import {webpackLoaderPath as flexDirectiveReplacerPath} from 'flex-directive-replacer';
 import {
     srcPath,
     distPath,
-    buildLanguage,
     isProductionBuildEnvironment,
     manifestName
 } from './build-config';
 
+// const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+
 const manifestPlugin = new ManifestPlugin({
     fileName: manifestName
-});
-const extractCssPlugin = new ExtractTextPlugin({
-    filename: 'css/[name].[contenthash].css',
-    allChunks: true
-});
-const commonsChunkPlugin = new webpack.optimize.CommonsChunkPlugin({
-    name: 'shared',
-    minChunks: 2
 });
 const uglifyJsPlugin = isProductionBuildEnvironment && new webpack.optimize.UglifyJsPlugin({
     sourceMap: true,
     parallel: true
 });
-const contextReplacementPlugin = new webpack.ContextReplacementPlugin(/moment[/\\]locale/, new RegExp(buildLanguage));
 
 module.exports = {
     entry: entryPoints,
@@ -47,9 +36,9 @@ module.exports = {
     plugins: [
         manifestPlugin,
         uglifyJsPlugin,
-        extractCssPlugin,
-        commonsChunkPlugin,
-        contextReplacementPlugin
+        // new BundleAnalyzerPlugin({
+        //     openAnalyzer: false
+        // })
     ].filter(Boolean),
     module: {
         rules: [{
@@ -69,82 +58,22 @@ module.exports = {
                 /src\/.*\.js$/
             ],
             use: [{
-                loader: 'babel-loader',
-                options: {
-                    cacheDirectory: true
-                }
-            }, {
-                loader: 'template-resolver-loader'
-            }, {
                 loader: i18nReplacerPath,
                 options: {
                     preset: 'js'
                 }
             }]
         }, {
-            test: /\.css$/,
-            use: extractCssPlugin.extract({
-                use: [{
-                    loader: 'css-loader',
-                    options: {
-                        url: false,
-                        minimize: isProductionBuildEnvironment && {
-                            discardComments: {
-                                removeAll: true
-                            }
-                        }
-                    }
-                }]
-            })
-        }, {
-            test: /\.scss$/,
-            use: extractCssPlugin.extract({
-                use: [{
-                    loader: 'css-loader',
-                    options: {
-                        url: false,
-                        minimize: isProductionBuildEnvironment && {
-                            discardComments: {
-                                removeAll: true
-                            }
-                        },
-                        importLoaders: 1
-                    }
-                }, {
-                    loader: 'sass-loader',
-                    options: {
-                        includePaths: [
-                            path.join(process.cwd(), 'node_modules')
-                        ]
-                    }
-                }]
-            })
-        }, {
             test: /\.html$/,
             use: [{
                 loader: 'html-loader',
                 options: {
-                    minimize: isProductionBuildEnvironment,
-                    ignoreCustomFragments: [
-                        /\{\{[\s\S]*?}}/
-                    ]
+                    minimize: isProductionBuildEnvironment
                 }
             }, {
                 loader: i18nReplacerPath,
                 options: {
                     preset: 'html'
-                }
-            }, {
-                loader: flexDirectiveReplacerPath
-            }, {
-                loader: htmlSourceIncludePath
-            }]
-        }, {
-            test: /\.svg/,
-            use: [{
-                loader: 'html-loader',
-                options: {
-                    minimize: isProductionBuildEnvironment
                 }
             }]
         }]

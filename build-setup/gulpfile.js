@@ -1,5 +1,5 @@
 require('babel-register')({
-  retainLines: true
+    retainLines: true
 });
 
 require('require-dir')('./tasks');

@@ -40,21 +40,21 @@ class StructureUnitDialog extends BaseComponent {
         }
 
         return compiler`
-            <bld-abstract-dialog .footerSlots=${['submit-button', 'cancel-button']}>
+            <awc-abstract-dialog .footerSlots=${['submit-button', 'cancel-button']}>
                 <span slot="dialog-title">${unitData.id ? '#{i18n.DIALOG_TITLE__EDIT_STRUCTURE_UNIT}#' : '#{i18n.DIALOG_TITLE__CREATE_STRUCTURE_UNIT}#'}</span>
                 <div slot="dialog-content">
-                    <bld-abstract-input id="structure-unit-title" .value=${unitData.title || ''} .label=${'#{i18n.INPUT_LABEL__STRUCTURE_UNIT_TITLE}#'} .constraints=${titleInputConstraints} @input=${handleTitleInputInput}></bld-abstract-input>
+                    <awc-abstract-input id="structure-unit-title" .value=${unitData.title || ''} .label=${'#{i18n.INPUT_LABEL__STRUCTURE_UNIT_TITLE}#'} .constraints=${titleInputConstraints} @input=${handleTitleInputInput}></awc-abstract-input>
                     <bld-vertical-spacer></bld-vertical-spacer>
-                    <bld-abstract-input id="structure-unit-description" .value=${unitData.description || ''} .label=${'#{i18n.INPUT_LABEL__STRUCTURE_UNIT_DESCRIPTION}#'} .constraints=${descriptionInputConstraints} @input=${handleDescriptionInputInput}></bld-abstract-input>
+                    <awc-abstract-input id="structure-unit-description" .value=${unitData.description || ''} .label=${'#{i18n.INPUT_LABEL__STRUCTURE_UNIT_DESCRIPTION}#'} .constraints=${descriptionInputConstraints} @input=${handleDescriptionInputInput}></awc-abstract-input>
                     <bld-vertical-spacer></bld-vertical-spacer>
-                    <bld-abstract-select id="structure-unit-type" .value=${unitData.view ? unitData.view.type : ''} .disabled=${Boolean(unitData.id)} .label=${'#{i18n.SELECT_LABEL__STRUCTURE_UNIT_TYPE}#'} .constraints=${typeSelectConstraints} .listItems=${structureUnitTypes} @change=${handleTypeSelectChange}></bld-abstract-select>
+                    <awc-abstract-select id="structure-unit-type" .value=${unitData.view ? unitData.view.type : ''} .disabled=${Boolean(unitData.id)} .label=${'#{i18n.SELECT_LABEL__STRUCTURE_UNIT_TYPE}#'} .constraints=${typeSelectConstraints} .listItems=${structureUnitTypes} @change=${handleTypeSelectChange}></awc-abstract-select>
                 </div>
                 <bld-action-button ?disabled=${invalid}
                    @click=${submitDialog}
                    slot="submit-button">#{i18n.BUTTON_LABEL__SUBMIT}#</bld-action-button>
                 <bld-flatten-button @click=${closeDialog}
                    slot="cancel-button">#{i18n.BUTTON_LABEL__CANCEL}#</bld-flatten-button>
-            </bld-abstract-dialog>
+            </awc-abstract-dialog>
         `;
     }
 
@@ -69,7 +69,7 @@ class StructureUnitDialog extends BaseComponent {
     }
 
     onRender() {
-        this.dialogComponent = this.shadowRoot.querySelector('bld-abstract-dialog');
+        this.dialogComponent = this.shadowRoot.querySelector('awc-abstract-dialog');
         this.titleInputComponent = this.shadowRoot.querySelector('#structure-unit-title');
         this.descriptionInputComponent = this.shadowRoot.querySelector('#structure-unit-description');
         this.typeSelectComponent = this.shadowRoot.querySelector('#structure-unit-type');

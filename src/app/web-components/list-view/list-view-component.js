@@ -13,11 +13,7 @@ class ListView extends BaseComponent {
         }
 
         const {isEditable, listItems, selectedItem, selectedIndex} = this;
-        const {handleSelect} = this;
-        const openCreateDialog = this.openCreateDialog.bind(this);
-        const openCreateDialogNew = this.openCreateDialogNew.bind(this);
-        const openEditDialog = this.openEditDialog.bind(this);
-        const openEditDialogNew = this.openEditDialogNew.bind(this);
+        const {handleSelect, openCreateDialog, openEditDialog} = this;
 
         return compiler`
             ${unsafeHTML(styles)}
@@ -29,8 +25,6 @@ class ListView extends BaseComponent {
                 <bld-vertical-divider></bld-vertical-divider>
                 <bld-vertical-spacer></bld-vertical-spacer>
                 <bld-floating-action-button @click=${openCreateDialog}>add</bld-floating-action-button>
-                <bld-vertical-spacer></bld-vertical-spacer>
-                <bld-floating-action-button @click=${openCreateDialogNew}>add</bld-floating-action-button>
             </div>
             <bld-horizontal-divider></bld-horizontal-divider>
             ${getAbstractListMarkup()}
@@ -41,14 +35,12 @@ class ListView extends BaseComponent {
             return isEditable ? compiler`
                 <bld-vertical-spacer></bld-vertical-spacer>
                 <bld-floating-action-button @click=${openEditDialog}>edit</bld-floating-action-button>
-                <bld-vertical-spacer></bld-vertical-spacer>
-                <bld-floating-action-button @click=${openEditDialogNew}>edit</bld-floating-action-button>
             ` : nothing;
         }
 
         function getAbstractListMarkup() {
             return listItems.length ? compiler`
-                <bld-abstract-list selected-index=${selectedIndex} .listItems=${listItems} .hasIconGraphic=${true} .hasSecondaryText=${true} @select=${handleSelect}></bld-abstract-list>
+                <awc-abstract-list selected-index=${selectedIndex} .listItems=${listItems} .hasIconGraphic=${true} .hasSecondaryText=${true} @select=${handleSelect}></awc-abstract-list>
             ` : nothing;
         }
 
@@ -81,21 +73,11 @@ class ListView extends BaseComponent {
     }
 
     openEditDialog() {
-        structureUnitsService.openDialog(Object.assign({}, this.instance));
-    }
-
-    openEditDialogNew() {
-        structureUnitsService.openDialogNew(this.instance);
+        structureUnitsService.openDialog(this.instance);
     }
 
     openCreateDialog() {
         structureUnitsService.openDialog({
-            parentId: this.instance.id
-        });
-    }
-
-    openCreateDialogNew() {
-        structureUnitsService.openDialogNew({
             parentId: this.instance.id
         });
     }

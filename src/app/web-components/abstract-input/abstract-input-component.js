@@ -209,4 +209,4 @@ class AbstractInput extends BaseComponent {
     }
 }
 
-customElements.define('bld-abstract-input', AbstractInput);
+customElements.define('awc-abstract-input', AbstractInput);

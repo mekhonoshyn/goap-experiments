@@ -17,8 +17,9 @@ class AbstractDialog extends BaseComponent {
                     <div class="mdc-dialog__surface">
                         ${hasTitle ? getHeaderMarkup() : nothing}
 
-                        <slot class="mdc-dialog__content"
-                           name="dialog-content"></slot>
+                        <div class="mdc-dialog__content">
+                            <slot name="dialog-content"></slot>
+                        </div>
 
                         ${footerSlots.length ? getFooterMarkup() : nothing}
                     </div>
@@ -29,8 +30,9 @@ class AbstractDialog extends BaseComponent {
 
         function getHeaderMarkup() {
             return compiler`
-                <slot class="mdc-dialog__title"
-                   name="dialog-title"></slot>
+                <div class="mdc-dialog__title">
+                    <slot name="dialog-title"></slot>
+                </div>
             `;
         }
 
@@ -44,8 +46,9 @@ class AbstractDialog extends BaseComponent {
 
         function getFooterSlotMarkup(slotName) {
             return compiler`
-                <slot class="mdc-dialog__button"
-                   name="${slotName}"></slot>
+                <div class="mdc-dialog__button">
+                    <slot name="${slotName}"></slot>
+                </div>
             `;
         }
     }
@@ -77,4 +80,4 @@ class AbstractDialog extends BaseComponent {
     }
 }
 
-customElements.define('bld-abstract-dialog', AbstractDialog);
+customElements.define('awc-abstract-dialog', AbstractDialog);
