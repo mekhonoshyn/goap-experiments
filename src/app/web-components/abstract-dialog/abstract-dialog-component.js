@@ -1,16 +1,13 @@
 import BaseComponent from '../base-component';
+
 import sleep from 'tools/sleep';
 
-import styles from './abstract-dialog-styles.html';
-
 class AbstractDialog extends BaseComponent {
-    render(compiler, {unsafeHTML, repeat}, {nothing}) {
+    render(compiler, {repeat}, {nothing}) {
         const {footerSlots = [], hasTitle} = this;
 
         return compiler`
-            <link rel="stylesheet" href="css/mdc.dialog.min.css"/>
-            
-            ${unsafeHTML(styles)}
+            <include src="abstract-dialog-styles.html"></include>
 
             <div class="mdc-dialog">
                 <div class="mdc-dialog__container">

@@ -1,7 +1,5 @@
 import BaseComponent from '../base-component';
 
-import styles from './structure-root-styles.html';
-
 import {
     createObjectDefinition
 } from 'tools/definitions';
@@ -10,7 +8,7 @@ import structureUnitsStore from 'app/stores/structure-units-store';
 import structureUnitsService from 'app/services/structure-units-service';
 
 class StructureUnit extends BaseComponent {
-    render(compiler, {unsafeHTML}, {nothing}) {
+    render(compiler, unused, {nothing}) {
         const {rootInstance} = this.privates;
 
         if (!rootInstance) {
@@ -18,7 +16,7 @@ class StructureUnit extends BaseComponent {
         }
 
         return compiler`
-            ${unsafeHTML(styles)}
+            <include src="structure-root-styles.html"></include>
             
             <bld-structure-unit instance-id=${rootInstance.id}></bld-structure-unit>
         `;

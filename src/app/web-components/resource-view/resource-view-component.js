@@ -1,12 +1,10 @@
 import BaseComponent from '../base-component';
 
-import styles from './resource-view-styles.html';
-
 import structureUnitsStore from '../../stores/structure-units-store';
 import structureUnitsService from 'app/services/structure-units-service';
 
 class ResourceView extends BaseComponent {
-    render(compiler, {unsafeHTML}, {nothing}) {
+    render(compiler, unused, {nothing}) {
         if (!this.instanceId) {
             return nothing;
         }
@@ -17,7 +15,7 @@ class ResourceView extends BaseComponent {
         ` : nothing;
 
         return compiler`
-            ${unsafeHTML(styles)}
+            <include src="resource-view-styles.html"></include>
 
             <div class="resource-actions-panel layout-column">
                 <bld-floating-action-button disabled>more_vert</bld-floating-action-button>

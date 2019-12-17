@@ -1,11 +1,9 @@
 import BaseComponent from '../base-component';
 
-import styles from './structure-unit-styles.html';
-
 import structureUnitsService from 'app/services/structure-units-service';
 
 class StructureUnit extends BaseComponent {
-    render(compiler, {unsafeHTML}, {nothing}) {
+    render(compiler, unused, {nothing}) {
         const {instance, instanceId} = this;
 
         if (!instanceId) {
@@ -13,7 +11,7 @@ class StructureUnit extends BaseComponent {
         }
 
         return compiler`
-            ${unsafeHTML(styles)}
+            <include src="structure-unit-styles.html"></include>
             
             ${getCompiledComponent()}
         `;

@@ -1,13 +1,11 @@
 import FlattenButton from './flatten-button-component';
 
-import styles from './floating-action-button-styles.html';
-
 export default class extends FlattenButton {
-    render(compiler, {unsafeHTML}, {nothing}) {
+    render(compiler, unused, {nothing}) {
         return compiler`
-            ${super.render(compiler, {unsafeHTML}, {nothing})}
+            ${super.render(compiler, unused, {nothing})}
             
-            ${unsafeHTML(styles)}
+            <include src="floating-action-button-styles.html"></include>
         `;
     }
 

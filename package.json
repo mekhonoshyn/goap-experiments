@@ -7,7 +7,7 @@
     "eslint": "./build-setup/scripts/eslint",
     "eslint-wip": "./build-setup/scripts/eslint --wip",
     "eslint-commit": "./build-setup/scripts/eslint --commit",
-    "update": "npm update gulp-purge-source-maps i18n-replacer template-resolver-loader"
+    "update": "npm update gulp-purge-source-maps i18n-replacer html-source-include"
   },
   "repository": {
     "type": "git",
@@ -54,6 +54,7 @@
     "gulp-purge-source-maps": "git+https://github.com/mekhonoshyn/gulp-purge-source-maps.git",
     "gulp-rename": "^1.2.2",
     "html-loader": "^0.5.5",
+    "html-source-include": "git+https://github.com/mekhonoshyn/html-source-include.git",
     "i18n-replacer": "git+https://github.com/mekhonoshyn/i18n-replacer.git",
     "json-loader": "^0.5.7",
     "node-sass": "^4.13.0",
@@ -62,7 +63,6 @@
     "run-sequence": "^2.2.1",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
-    "template-resolver-loader": "git+https://github.com/mekhonoshyn/template-resolver-loader.git",
     "webpack": "^3.11.0",
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-manifest-plugin": "^2.2.0",

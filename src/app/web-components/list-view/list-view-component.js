@@ -1,13 +1,11 @@
 import BaseComponent from '../base-component';
 
-import styles from './list-view-styles.html';
-
 import structureUnitsStore from 'app/stores/structure-units-store';
 import structureUnitsActions from 'app/actions/structure-units-actions';
 import structureUnitsService from 'app/services/structure-units-service';
 
 class ListView extends BaseComponent {
-    render(compiler, {unsafeHTML}, {nothing}) {
+    render(compiler, unused, {nothing}) {
         if (!this.instanceId) {
             return nothing;
         }
@@ -16,7 +14,7 @@ class ListView extends BaseComponent {
         const {handleSelect, openCreateDialog, openEditDialog} = this;
 
         return compiler`
-            ${unsafeHTML(styles)}
+            <include src="list-view-styles.html"></include>
             
             <div class="list-actions-panel layout-column">
                 <bld-floating-action-button disabled>more_vert</bld-floating-action-button>

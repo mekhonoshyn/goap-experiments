@@ -1,7 +1,5 @@
 import BaseComponent from '../base-component';
 
-import styles from './abstract-tabs-styles.html';
-
 import {
     createArrayDefinition
 } from 'tools/definitions';
@@ -9,7 +7,7 @@ import {
 const PAGINATION_FACTOR = 0.8;
 
 class AbstractTabs extends BaseComponent {
-    render(compiler, {unsafeHTML, repeat}, {nothing, nothingFn}) {
+    render(compiler, {repeat}, {nothing, nothingFn}) {
         const {hasIconGraphic, selectedIndex, tabsItems, trackBy, showNavigationButtons} = this;
         const handleTabsItemSelect = this.handleTabsItemSelect.bind(this);
         const handleTabsNavigation = this.handleTabsNavigation.bind(this);
@@ -20,14 +18,9 @@ class AbstractTabs extends BaseComponent {
         const iconMarkup = hasIconGraphic ? getIconGraphicMarkup : nothingFn;
 
         return compiler`
-            <link rel="stylesheet" href="css/mdc.tab-bar.min.css"/>
-            <link rel="stylesheet" href="css/mdc.tab-scroller.min.css"/>
-            <link rel="stylesheet" href="css/mdc.tab-indicator.min.css"/>
-            <link rel="stylesheet" href="css/mdc.tab.min.css"/>
-            
             ${iconStylesheetMarkup}
 
-            ${unsafeHTML(styles)}
+            <include src="abstract-tabs-styles.html"></include>
             
             <div class="mdc-tab-bar">
                 ${showNavigationButtons ? getNavigateLeftButtonMarkup() : nothing}

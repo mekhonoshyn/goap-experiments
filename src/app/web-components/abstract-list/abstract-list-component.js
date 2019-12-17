@@ -1,7 +1,5 @@
 import BaseComponent from '../base-component';
 
-import styles from './abstract-list-styles.html';
-
 import {
     createArrayDefinition
 } from 'tools/definitions';
@@ -11,7 +9,7 @@ const DEFAULT_HAS_SECONDARY_TEXT = false;
 const DEFAULT_TRACK_BY = ({id}) => id;
 
 class AbstractList extends BaseComponent {
-    render(compiler, {unsafeHTML, repeat}, {nothing, nothingFn}) {
+    render(compiler, {repeat}, {nothing, nothingFn}) {
         const {hasIconGraphic = DEFAULT_HAS_ICON_GRAPHIC, hasSecondaryText = DEFAULT_HAS_SECONDARY_TEXT, selectedIndex, listItems, trackBy = DEFAULT_TRACK_BY} = this;
         const handleListItemSelect = this.handleListItemSelect.bind(this);
 
@@ -22,11 +20,9 @@ class AbstractList extends BaseComponent {
         const textMarkup = hasSecondaryText ? getTwoLinesTextMarkup : getOneLineTextMarkup;
 
         return compiler`
-            <link rel="stylesheet" href="css/mdc.list.min.css"/>
-
             ${iconStylesheetMarkup}
 
-            ${unsafeHTML(styles)}
+            <include src="abstract-list-styles.html"></include>
 
             <ul class="mdc-list ${hasSecondaryText ? 'mdc-list--two-line' : ''} flex"
                @click=${handleListItemSelect}>

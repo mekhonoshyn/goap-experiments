@@ -1,13 +1,11 @@
 import BaseComponent from '../base-component';
 
-import styles from './tabs-view-styles.html';
-
 import structureUnitsStore from 'app/stores/structure-units-store';
 import structureUnitsActions from 'app/actions/structure-units-actions';
 import structureUnitsService from 'app/services/structure-units-service';
 
 class TabsView extends BaseComponent {
-    render(compiler, {unsafeHTML}, {nothing}) {
+    render(compiler, unused, {nothing}) {
         if (!this.instanceId) {
             return nothing;
         }
@@ -18,7 +16,7 @@ class TabsView extends BaseComponent {
         const handleSelect = this.handleSelect.bind(this);
 
         return compiler`
-            ${unsafeHTML(styles)}
+            <include src="tabs-view-styles.html"></include>
             
             <div class="tabs-actions-panel layout-column">
                 <bld-floating-action-button disabled>more_vert</bld-floating-action-button>

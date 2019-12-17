@@ -1,21 +1,17 @@
 import BaseComponent from '../../base-component';
 
-import styles from './flatten-button-styles.html';
-
 const DEFAULT_ROUNDING = '4px';
 
 export default class extends BaseComponent {
-    render(compiler, {unsafeHTML}, {nothing}) {
+    render(compiler, unused, {nothing}) {
         const iconStylesheetMarkup = this.hasIconGraphic ? compiler`
             <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
         ` : nothing;
 
         return compiler`
-            <link rel="stylesheet" href="css/mdc.button.min.css"/>
-            
             ${iconStylesheetMarkup}
 
-            ${unsafeHTML(styles)}
+            <include src="flatten-button-styles.html"></include>
             
             <style>
                 .mdc-button {

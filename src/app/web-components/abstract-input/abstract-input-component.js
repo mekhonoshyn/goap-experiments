@@ -1,7 +1,5 @@
 import BaseComponent from '../base-component';
 
-import styles from './abstract-input-styles.html';
-
 import {
     createArrayDefinition,
     createStringDefinition,
@@ -20,7 +18,7 @@ import {
  */
 
 class AbstractInput extends BaseComponent {
-    render(compiler, {unsafeHTML}, {nothing}) {
+    render(compiler, unused, {nothing}) {
         const {value} = this;
         const {disabled, label, inputFocused, buttonFocused, isTouched, failedConstraint, required, maxLength} = this.privates;
         const {handleInputBlur, handleInputFocus, handleInputInput, handleButtonClick, handleButtonKeydown, handleButtonBlur, handleButtonFocus} = this;
@@ -28,11 +26,7 @@ class AbstractInput extends BaseComponent {
         const displayMessage = showInvalidity ? failedConstraint.errorMessage : '';
 
         return compiler`
-            <link rel="stylesheet" href="css/mdc.textfield.min.css"/>
-
-            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-            
-            ${unsafeHTML(styles)}
+            <include src="abstract-input-styles.html"></include>
 
             <div class="mdc-text-field__container layout-column">
                 <div class="mdc-text-field mdc-text-field--with-trailing-icon ${disabled ? 'mdc-text-field--disabled' : ''} ${inputFocused ? 'mdc-text-field--focused' : ''} ${showInvalidity ? 'mdc-text-field--invalid' : ''}">

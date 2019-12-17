@@ -1,12 +1,10 @@
 import BaseComponent from '../base-component';
 
-import styles from './goal-view-styles.html';
-
 import structureUnitsStore from '../../stores/structure-units-store';
 import structureUnitsService from 'app/services/structure-units-service';
 
 class GoalView extends BaseComponent {
-    render(compiler, {repeat, unsafeHTML}, {nothing, nothingFn}) {
+    render(compiler, {repeat}, {nothing, nothingFn}) {
         if (!this.instanceId) {
             return nothing;
         }
@@ -17,7 +15,7 @@ class GoalView extends BaseComponent {
         ` : nothing;
 
         return compiler`
-            ${unsafeHTML(styles)}
+            <include src="goal-view-styles.html"></include>
             
             <div class="goal-actions-panel layout-column">
                 <bld-floating-action-button disabled>more_vert</bld-floating-action-button>

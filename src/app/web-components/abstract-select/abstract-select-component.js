@@ -1,7 +1,5 @@
 import BaseComponent from '../base-component';
 
-import styles from './abstract-select-styles.html';
-
 import {
     createArrayDefinition,
     createObjectDefinition,
@@ -21,18 +19,14 @@ import {
  */
 
 class AbstractSelect extends BaseComponent {
-    render(compiler, {unsafeHTML}) {
+    render(compiler) {
         const {disabled, selectedIndex, selectedItem, focused, activated, value, isTouched, failedConstraint, label, required, listItems} = this.privates;
         const {handleSelectChange, selectFocusHandler, selectKeydownHandler} = this;
         const showInvalidity = isTouched && failedConstraint;
         const displayMessage = showInvalidity ? failedConstraint.errorMessage : '';
 
         return compiler`
-            <link rel="stylesheet" href="css/mdc.menu-surface.min.css"/>
-            <link rel="stylesheet" href="css/mdc.menu.min.css"/>
-            <link rel="stylesheet" href="css/mdc.select.min.css"/>
-
-            ${unsafeHTML(styles)}
+            <include src="abstract-select-styles.html"></include>
 
             ${disabled ? getDisabledContainerMarkup() : getEnabledContainerMarkup()}
         `;

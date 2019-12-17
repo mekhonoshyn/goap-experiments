@@ -1,6 +1,5 @@
 import {html, render, nothing} from 'lit-html';
 import {repeat} from 'lit-html/directives/repeat';
-import {unsafeHTML} from 'lit-html/directives/unsafe-html';
 import sleep from 'tools/sleep';
 import {
     createBooleanDefinition,
@@ -69,7 +68,7 @@ export default class extends HTMLElement {
         this.privates.awaitingForRender = false;
 
         if (this.constructor.hasShadowDOM) {
-            render(this.render(html, {repeat, unsafeHTML}, {nothing, nothingFn}), this.shadowRoot, this.renderOptions);
+            render(this.render(html, {repeat}, {nothing, nothingFn}), this.shadowRoot, this.renderOptions);
         }
 
         this.privates.firstRenderHappen = true;

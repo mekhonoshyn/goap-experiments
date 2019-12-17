@@ -3,6 +3,7 @@ import webpack from 'webpack';
 import entryPoints from './entry-points';
 import ManifestPlugin from 'webpack-manifest-plugin';
 import {webpackLoaderPath as i18nReplacerPath} from 'i18n-replacer';
+import {webpackLoaderPath as htmlSourceIncludePath} from 'html-source-include';
 import {
     srcPath,
     distPath,
@@ -62,6 +63,8 @@ module.exports = {
                 options: {
                     preset: 'js'
                 }
+            }, {
+                loader: htmlSourceIncludePath
             }]
         }, {
             test: /\.html$/,
