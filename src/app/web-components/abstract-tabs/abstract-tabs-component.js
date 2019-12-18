@@ -1,8 +1,6 @@
 import BaseComponent from '../base-component';
 
-import {
-    createArrayDefinition
-} from 'tools/definitions';
+import plainDefinition from 'tools/definitions/plain-definition';
 
 const PAGINATION_FACTOR = 0.8;
 
@@ -161,7 +159,7 @@ class AbstractTabs extends BaseComponent {
 
     static get privatesDefinition() {
         return {
-            tabsItems: createArrayDefinition([])
+            tabsItems: plainDefinition([])
         };
     }
 }

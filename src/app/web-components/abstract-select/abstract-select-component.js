@@ -1,12 +1,6 @@
 import BaseComponent from '../base-component';
 
-import {
-    createArrayDefinition,
-    createObjectDefinition,
-    createNumberDefinition,
-    createStringDefinition,
-    createBooleanDefinition
-} from 'tools/definitions';
+import plainDefinition from 'tools/definitions/plain-definition';
 
 /**
  * Properties:
@@ -55,7 +49,7 @@ class AbstractSelect extends BaseComponent {
                         <i class="mdc-select__dropdown-icon"></i>
                         <div class="mdc-select__selected-text">${selectedItem ? selectedItem.primaryText : ''}</div>
                         <span class="mdc-floating-label ${value || focused ? 'mdc-floating-label--float-above' : ''}">${label}</span>
-                        <bld-line-ripple></bld-line-ripple>
+                        <awc-line-ripple></awc-line-ripple>
                     </div>
                     <p class="mdc-select-helper-text ${showInvalidity ? 'mdc-select-helper-text--validation-msg' : ''}"
                        title=${displayMessage}>${displayMessage}</p>
@@ -83,7 +77,7 @@ class AbstractSelect extends BaseComponent {
     onRender() {
         this.menuElement = this.shadowRoot.querySelector('.mdc-select__menu');
         this.listElement = this.shadowRoot.querySelector('awc-abstract-list');
-        this.rippleElement = this.shadowRoot.querySelector('bld-line-ripple');
+        this.rippleElement = this.shadowRoot.querySelector('awc-line-ripple');
         this.wrapperElement = this.shadowRoot.querySelector('.mdc-select');
     }
 
@@ -315,18 +309,18 @@ class AbstractSelect extends BaseComponent {
 
     static get privatesDefinition() {
         return {
-            failedConstraint: createObjectDefinition(null),
-            selectedItem: createObjectDefinition(null),
-            selectedIndex: createNumberDefinition(-1),
-            value: createStringDefinition(null),
-            label: createStringDefinition(''),
-            activated: createBooleanDefinition(false),
-            focused: createBooleanDefinition(false),
-            isTouched: createBooleanDefinition(false),
-            disabled: createBooleanDefinition(false),
-            required: createBooleanDefinition(false),
-            constraints: createArrayDefinition([]),
-            listItems: createArrayDefinition([])
+            failedConstraint: plainDefinition(null),
+            selectedItem: plainDefinition(null),
+            selectedIndex: plainDefinition(-1),
+            value: plainDefinition(null),
+            label: plainDefinition(''),
+            activated: plainDefinition(false),
+            focused: plainDefinition(false),
+            isTouched: plainDefinition(false),
+            disabled: plainDefinition(false),
+            required: plainDefinition(false),
+            constraints: plainDefinition([]),
+            listItems: plainDefinition([])
         };
     }
 }

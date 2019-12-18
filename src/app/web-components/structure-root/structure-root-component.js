@@ -1,13 +1,11 @@
 import BaseComponent from '../base-component';
 
-import {
-    createObjectDefinition
-} from 'tools/definitions';
+import plainDefinition from 'tools/definitions/plain-definition';
 
 import structureUnitsStore from 'app/stores/structure-units-store';
 import structureUnitsService from 'app/services/structure-units-service';
 
-class StructureUnit extends BaseComponent {
+class StructureRoot extends BaseComponent {
     render(compiler, unused, {nothing}) {
         const {rootInstance} = this.privates;
 
@@ -42,9 +40,9 @@ class StructureUnit extends BaseComponent {
 
     static get privatesDefinition() {
         return {
-            rootInstance: createObjectDefinition(null)
+            rootInstance: plainDefinition(null)
         };
     }
 }
 
-customElements.define('bld-structure-root', StructureUnit);
+customElements.define('bld-structure-root', StructureRoot);

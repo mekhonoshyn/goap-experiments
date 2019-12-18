@@ -1,12 +1,6 @@
 import BaseComponent from '../base-component';
 
-import {
-    createArrayDefinition,
-    createStringDefinition,
-    createObjectDefinition,
-    createNumberDefinition,
-    createBooleanDefinition
-} from 'tools/definitions';
+import plainDefinition from 'tools/definitions/plain-definition';
 
 /**
  * Properties:
@@ -38,7 +32,7 @@ class AbstractInput extends BaseComponent {
                        @input=${handleInputInput}/>
                     <label class="mdc-floating-label ${value || inputFocused ? 'mdc-floating-label--float-above' : ''}">${label}</label>
                     ${disabled || !value ? nothing : getButtonMarkup()}
-                    <bld-line-ripple></bld-line-ripple>
+                    <awc-line-ripple></awc-line-ripple>
                 </div>
                 <div class="mdc-text-field-helper-line">
                     <div class="mdc-text-field-helper-text ${showInvalidity ? 'mdc-text-field-helper-text--validation-msg' : ''}"
@@ -62,7 +56,7 @@ class AbstractInput extends BaseComponent {
 
     onRender() {
         this.inputElement = this.shadowRoot.querySelector('.mdc-text-field__input');
-        this.rippleElement = this.shadowRoot.querySelector('bld-line-ripple');
+        this.rippleElement = this.shadowRoot.querySelector('awc-line-ripple');
     }
 
     handleInputBlur() {
@@ -142,7 +136,7 @@ class AbstractInput extends BaseComponent {
 
     set value(value) {
         (async () => {
-            await this.privates.firstRenderHappen;
+            await this.privates.rendered;
 
             this.inputElement.value = value;
 
@@ -190,15 +184,15 @@ class AbstractInput extends BaseComponent {
 
     static get privatesDefinition() {
         return {
-            isTouched: createBooleanDefinition(false),
-            failedConstraint: createObjectDefinition(null),
-            inputFocused: createBooleanDefinition(false),
-            buttonFocused: createBooleanDefinition(false),
-            required: createBooleanDefinition(false),
-            maxLength: createNumberDefinition(0),
-            constraints: createArrayDefinition([]),
-            disabled: createBooleanDefinition(false),
-            label: createStringDefinition('')
+            isTouched: plainDefinition(false),
+            failedConstraint: plainDefinition(null),
+            inputFocused: plainDefinition(false),
+            buttonFocused: plainDefinition(false),
+            required: plainDefinition(false),
+            maxLength: plainDefinition(0),
+            constraints: plainDefinition([]),
+            disabled: plainDefinition(false),
+            label: plainDefinition('')
         };
     }
 }

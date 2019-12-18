@@ -1,8 +1,6 @@
 import BaseComponent from '../base-component';
 
-import {
-    createArrayDefinition
-} from 'tools/definitions';
+import plainDefinition from 'tools/definitions/plain-definition';
 
 const DEFAULT_HAS_ICON_GRAPHIC = false;
 const DEFAULT_HAS_SECONDARY_TEXT = false;
@@ -122,7 +120,7 @@ class AbstractList extends BaseComponent {
 
     static get privatesDefinition() {
         return {
-            listItems: createArrayDefinition([])
+            listItems: plainDefinition([])
         };
     }
 }

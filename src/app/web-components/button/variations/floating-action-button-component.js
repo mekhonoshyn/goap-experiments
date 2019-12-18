@@ -1,6 +1,6 @@
 import FlattenButton from './flatten-button-component';
 
-export default class extends FlattenButton {
+export default class FloatingActionButton extends FlattenButton {
     render(compiler, unused, {nothing}) {
         return compiler`
             ${super.render(compiler, unused, {nothing})}

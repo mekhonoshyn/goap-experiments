@@ -1,20 +1,15 @@
-import {html, render, nothing} from 'lit-html';
-import {repeat} from 'lit-html/directives/repeat';
-import sleep from 'tools/sleep';
-import {
-    createBooleanDefinition,
-    createDeferredDefinition
-} from 'tools/definitions';
+import plainDefinition from 'tools/definitions/plain-definition';
+import deferredDefinition from 'tools/definitions/deferred-definition';
 
-export default class extends HTMLElement {
+export default class BaseComponent extends HTMLElement {
     constructor() {
         super();
 
-        const extendedPrivatesDefinition = Object.assign({}, this.constructor.privatesDefinition, {
-            awaitingForRender: createBooleanDefinition(false),
-            firstRenderHappen: createDeferredDefinition(),
-            attributesBound: createDeferredDefinition(),
-            propertiesBound: createDeferredDefinition()
+        const extendedPrivatesDefinition = Object.assign(this.constructor.privatesDefinition, {
+            rendering: plainDefinition(false),
+            rendered: deferredDefinition(),
+            attributesBound: deferredDefinition(),
+            propertiesBound: deferredDefinition()
         });
 
         Object.defineProperty(this, 'privates', {
@@ -57,26 +52,34 @@ export default class extends HTMLElement {
     onDisconnect() {}
 
     async invalidate() {
-        if (this.privates.awaitingForRender) {
+        if (this.privates.rendering) {
             return;
         }
 
-        this.privates.awaitingForRender = true;
-
-        await sleep();
-
-        this.privates.awaitingForRender = false;
+        this.privates.rendering = true;
 
         if (this.constructor.hasShadowDOM) {
-            render(this.render(html, {repeat}, {nothing, nothingFn}), this.shadowRoot, this.renderOptions);
+            const {
+                repeat,
+                render,
+                compile,
+                nothing,
+                nothingFn
+            } = await import('tools/directives');
+
+            render(this.render(compile, {repeat}, {nothing, nothingFn}), this.shadowRoot, this.renderOptions);
+        } else {
+            (await import('tools/sleep')).default();
         }
 
-        this.privates.firstRenderHappen = true;
+        this.privates.rendering = false;
+
+        this.privates.rendered = true;
 
         this.onRender();
     }
 
-    render(compiler, directives, parts) {
+    render(compile, directives, {nothing}) {
         return nothing;
     }
 
@@ -99,8 +102,4 @@ export default class extends HTMLElement {
             eventContext: this
         };
     }
-}
-
-function nothingFn() {
-    return nothing;
 }

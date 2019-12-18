@@ -42,4 +42,4 @@ class LineRipple extends BaseComponent {
     }
 }
 
-customElements.define('bld-line-ripple', LineRipple);
+customElements.define('awc-line-ripple', LineRipple);

@@ -2,7 +2,7 @@ import BaseComponent from '../../base-component';
 
 const DEFAULT_ROUNDING = '4px';
 
-export default class extends BaseComponent {
+export default class FlattenButton extends BaseComponent {
     render(compiler, unused, {nothing}) {
         const iconStylesheetMarkup = this.hasIconGraphic ? compiler`
             <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>

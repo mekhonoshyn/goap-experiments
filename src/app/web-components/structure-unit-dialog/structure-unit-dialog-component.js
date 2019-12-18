@@ -3,11 +3,7 @@ import BaseComponent from '../base-component';
 import structureUnitsService from 'app/services/structure-units-service';
 import structureUnitsActions from 'app/actions/structure-units-actions';
 
-import {
-    createArrayDefinition,
-    createObjectDefinition,
-    createBooleanDefinition
-} from 'tools/definitions';
+import plainDefinition from 'tools/definitions/plain-definition';
 
 import {
     createMaxLengthConstraint,
@@ -76,7 +72,7 @@ class StructureUnitDialog extends BaseComponent {
     }
 
     async open(unitData) {
-        await this.privates.firstRenderHappen;
+        await this.privates.rendered;
 
         this.privates.unitData = Object.assign({}, unitData);
 
@@ -179,11 +175,11 @@ class StructureUnitDialog extends BaseComponent {
 
     static get privatesDefinition() {
         return {
-            invalid: createBooleanDefinition(false),
-            unitData: createObjectDefinition(null),
-            titleInputConstraints: createArrayDefinition([]),
-            descriptionInputConstraints: createArrayDefinition([]),
-            typeSelectConstraints: createArrayDefinition([])
+            invalid: plainDefinition(false),
+            unitData: plainDefinition(null),
+            titleInputConstraints: plainDefinition([]),
+            descriptionInputConstraints: plainDefinition([]),
+            typeSelectConstraints: plainDefinition([])
         };
     }
 }

@@ -1,7 +1,5 @@
 import BaseComponent from '../base-component';
 
-import sleep from 'tools/sleep';
-
 class AbstractDialog extends BaseComponent {
     render(compiler, {repeat}, {nothing}) {
         const {footerSlots = [], hasTitle} = this;
@@ -59,10 +57,12 @@ class AbstractDialog extends BaseComponent {
     }
 
     async open() {
+        await this.privates.rendered;
+
         this.dialogElement.classList.add('mdc-dialog--opening');
         this.dialogElement.classList.add('mdc-dialog--open');
 
-        await sleep(300);
+        (await import('tools/sleep')).default(300);
 
         this.dialogElement.classList.remove('mdc-dialog--opening');
     }
@@ -71,7 +71,7 @@ class AbstractDialog extends BaseComponent {
         this.dialogElement.classList.add('mdc-dialog--closing');
         this.dialogElement.classList.remove('mdc-dialog--open');
 
-        await sleep(300);
+        (await import('tools/sleep')).default(300);
 
         this.dialogElement.classList.remove('mdc-dialog--closing');
     }
