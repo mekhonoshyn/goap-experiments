@@ -1,92 +1,108 @@
-import BaseComponent from '../base-component';
-
 import structureUnitsStore from '../../stores/structure-units-store';
 import structureUnitsService from 'app/services/structure-units-service';
 
-class ToolView extends BaseComponent {
-    render(compiler, unused, {nothing}) {
-        if (!this.instanceId) {
-            return nothing;
+(async () => {
+    const [
+        {html: compile, nothing},
+        {default: BaseComponent}
+    ] = await Promise.all([
+        import('lit-html'),
+        import('app/web-components/base-component')
+    ]);
+
+    class ToolView extends (await BaseComponent) {
+        render() {
+            if (!this.instanceId) {
+                return nothing;
+            }
+
+            const compiledEditAction = this.isEditable ? compile`
+                <awc-abstract-vertical-spacer></awc-abstract-vertical-spacer>
+                <awc-abstract-floating-button @click=${this.openEditDialog.bind(this)}>edit</awc-abstract-floating-button>
+            ` : nothing;
+
+            return compile`
+                <include src="tool-view-styles.html"></include>
+    
+                <div class="tool-actions-panel layout-column">
+                    <awc-abstract-floating-button disabled>more_vert</awc-abstract-floating-button>
+                    ${compiledEditAction}
+                </div>
+                <awc-horizontal-divider></awc-horizontal-divider>
+                <div class="layout-column flex">
+                    <h3 class="tool-header">${this.instance.title}</h3>
+                    <i class="tool-sub-header">${this.instance.description}</i>
+                </div>
+            `;
         }
 
-        const compiledEditAction = this.isEditable ? compiler`
-            <bld-vertical-spacer></bld-vertical-spacer>
-            <bld-floating-action-button @click=${this.openEditDialog.bind(this)}>edit</bld-floating-action-button>
-        ` : nothing;
-
-        return compiler`
-            <include src="tool-view-styles.html"></include>
-
-            <div class="tool-actions-panel layout-column">
-                <bld-floating-action-button disabled>more_vert</bld-floating-action-button>
-                ${compiledEditAction}
-            </div>
-            <bld-horizontal-divider></bld-horizontal-divider>
-            <div class="layout-column flex">
-                <h3 class="tool-header">${this.instance.title}</h3>
-                <i class="tool-sub-header">${this.instance.description}</i>
-            </div>
-        `;
-    }
-
-    onCreate() {
-        Object.assign(this, {
-            boundOnSelectionPathUpdate: onSelectionPathUpdate.bind(null, this),
-            boundOnStructureUnitsUpdate: onStructureUnitsUpdate.bind(null, this)
-        });
-    }
-
-    onConnect() {
-        structureUnitsStore.subscribe(this.boundOnSelectionPathUpdate);
-        structureUnitsStore.subscribe(this.boundOnStructureUnitsUpdate);
-    }
-
-    onDisconnect() {
-        structureUnitsStore.unSubscribe(this.boundOnSelectionPathUpdate);
-        structureUnitsStore.unSubscribe(this.boundOnStructureUnitsUpdate);
-    }
-
-    static get observedAttributes() {
-        return ['instance-id'];
-    }
-
-    openEditDialog() {
-        structureUnitsService.openDialog(Object.assign({}, this.instance));
-    }
-
-    get instance() {
-        const {instanceId} = this;
-
-        return structureUnitsService.findStructureUnit(instanceId);
-    }
-
-    get instanceId() {
-        const instanceId = parseInt(this.getAttribute('instance-id'), 10);
-
-        if (isNaN(instanceId)) {
-            return null;
+        onCreate() {
+            Object.assign(this, {
+                boundOnSelectionPathUpdate: this.onSelectionPathUpdate.bind(this),
+                boundOnStructureUnitsUpdate: this.onStructureUnitsUpdate.bind(this)
+            });
         }
 
-        return instanceId;
-    }
-
-    get isEditable() {
-        const {instance} = this;
-
-        if (!instance) {
-            return false;
+        onConnect() {
+            structureUnitsStore.subscribe(this.boundOnSelectionPathUpdate);
+            structureUnitsStore.subscribe(this.boundOnStructureUnitsUpdate);
         }
 
-        return Boolean(instance.parentId);
+        onDisconnect() {
+            structureUnitsStore.unSubscribe(this.boundOnSelectionPathUpdate);
+            structureUnitsStore.unSubscribe(this.boundOnStructureUnitsUpdate);
+        }
+
+        static get observedAttributes() {
+            return ['instance-id'];
+        }
+
+        openEditDialog() {
+            structureUnitsService.openDialog(Object.assign({}, this.instance));
+        }
+
+        onSelectionPathUpdate() {
+            this.invalidate();
+        }
+
+        onStructureUnitsUpdate() {
+            this.invalidate();
+        }
+
+        get instance() {
+            const {instanceId} = this;
+
+            return structureUnitsService.findStructureUnit(instanceId);
+        }
+
+        get instanceId() {
+            const instanceId = parseInt(this.getAttribute('instance-id'), 10);
+
+            if (isNaN(instanceId)) {
+                return null;
+            }
+
+            return instanceId;
+        }
+
+        get isEditable() {
+            const {instance} = this;
+
+            if (!instance) {
+                return false;
+            }
+
+            return Boolean(instance.parentId);
+        }
+
+        static get deferredDependencies() {
+            return [
+                import('app/web-components/abstract-horizontal-divider/abstract-horizontal-divider-component'),
+                import('app/web-components/abstract-floating-button/abstract-floating-button-component'),
+                import('app/web-components/abstract-vertical-spacer/abstract-vertical-spacer-component')
+            ];
+        }
     }
-}
 
-customElements.define('bld-tool-view', ToolView);
-
-function onSelectionPathUpdate(context) {
-    context.invalidate();
-}
-
-function onStructureUnitsUpdate(context) {
-    context.invalidate();
-}
+    customElements.define('bld-tool-view', ToolView);
+})();

@@ -1,105 +1,116 @@
-import plainDefinition from 'tools/definitions/plain-definition';
-import deferredDefinition from 'tools/definitions/deferred-definition';
+export default new Promise(async (resolve) => {
+    const [
+        {render, nothing},
+        {default: sleep},
+        {default: plainDefinition},
+        {default: deferredDefinition}
+    ] = await Promise.all([
+        import('lit-html'),
+        import('tools/sleep'),
+        import('tools/definitions/plain-definition'),
+        import('tools/definitions/deferred-definition')
+    ]);
 
-export default class BaseComponent extends HTMLElement {
-    constructor() {
-        super();
+    class BaseComponent extends HTMLElement {
+        constructor() {
+            super();
 
-        const extendedPrivatesDefinition = Object.assign(this.constructor.privatesDefinition, {
-            rendering: plainDefinition(false),
-            rendered: deferredDefinition(),
-            attributesBound: deferredDefinition(),
-            propertiesBound: deferredDefinition()
-        });
+            const extendedPrivatesDefinition = Object.assign(this.constructor.privatesDefinition, {
+                rendering: plainDefinition(false),
+                rendered: deferredDefinition(),
+                attributesBound: deferredDefinition(),
+                propertiesBound: deferredDefinition()
+            });
 
-        Object.defineProperty(this, 'privates', {
-            value: Object.defineProperties({}, extendedPrivatesDefinition)
-        });
+            Object.defineProperty(this, 'privates', {
+                value: Object.defineProperties({}, extendedPrivatesDefinition)
+            });
 
-        if (this.constructor.hasShadowDOM) {
-            this.attachShadow({mode: 'open'});
+            if (this.constructor.hasShadowDOM) {
+                this.attachShadow({mode: 'open'});
+            }
+
+            this.onCreate();
         }
 
-        this.onCreate();
-    }
+        async connectedCallback() {
+            await Promise.all(this.constructor.deferredDependencies);
 
-    async connectedCallback() {
-        this.privates.propertiesBound = true;
+            this.privates.propertiesBound = true;
 
-        await this.invalidate();
+            await this.invalidate();
 
-        this.onConnect();
-    }
-
-    async attributeChangedCallback() {
-        this.privates.attributesBound = true;
-
-        await this.onUpdate();
-
-        await this.invalidate();
-    }
-
-    disconnectedCallback() {
-        this.onDisconnect();
-    }
-
-    onCreate() {}
-
-    onConnect() {}
-
-    async onUpdate() {}
-
-    onDisconnect() {}
-
-    async invalidate() {
-        if (this.privates.rendering) {
-            return;
+            this.onConnect();
         }
 
-        this.privates.rendering = true;
+        async attributeChangedCallback() {
+            this.privates.attributesBound = true;
 
-        if (this.constructor.hasShadowDOM) {
-            const {
-                repeat,
-                render,
-                compile,
-                nothing,
-                nothingFn
-            } = await import('tools/directives');
+            await this.onUpdate();
 
-            render(this.render(compile, {repeat}, {nothing, nothingFn}), this.shadowRoot, this.renderOptions);
-        } else {
-            (await import('tools/sleep')).default();
+            await this.invalidate();
         }
 
-        this.privates.rendering = false;
+        disconnectedCallback() {
+            this.onDisconnect();
+        }
 
-        this.privates.rendered = true;
+        onCreate() {}
 
-        this.onRender();
+        onConnect() {}
+
+        async onUpdate() {}
+
+        onDisconnect() {}
+
+        async invalidate() {
+            if (this.privates.rendering) {
+                return;
+            }
+
+            this.privates.rendering = true;
+
+            await sleep();
+
+            if (this.constructor.hasShadowDOM) {
+                render(this.render(), this.shadowRoot, this.renderOptions);
+            }
+
+            this.privates.rendering = false;
+
+            this.privates.rendered = true;
+
+            this.onRender();
+        }
+
+        render() {
+            return nothing;
+        }
+
+        onRender() {}
+
+        static get observedAttributes() {
+            return [];
+        }
+
+        static get hasShadowDOM() {
+            return true;
+        }
+
+        static get privatesDefinition() {
+            return {};
+        }
+
+        static get deferredDependencies() {
+            return [];
+        }
+
+        get renderOptions() {
+            return {
+                eventContext: this
+            };
+        }
     }
 
-    render(compile, directives, {nothing}) {
-        return nothing;
-    }
-
-    onRender() {}
-
-    static get observedAttributes() {
-        return [];
-    }
-
-    static get hasShadowDOM() {
-        return true;
-    }
-
-    static get privatesDefinition() {
-        return {};
-    }
-
-    get renderOptions() {
-        return {
-            eventContext: this
-        };
-    }
-}
+    resolve(BaseComponent);
+});
