@@ -56,7 +56,7 @@
     "html-source-include": "git+https://github.com/mekhonoshyn/html-source-include.git",
     "i18n-replacer": "git+https://github.com/mekhonoshyn/i18n-replacer.git",
     "json-loader": "^0.5.7",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "raw-loader": "^0.5.1",
     "require-dir": "^1.0.0",
     "run-sequence": "^2.2.1",
